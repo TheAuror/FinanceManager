@@ -10,10 +10,6 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         public virtual int? CategoryId { get; set; }
         public virtual CategoryModel Category { get; set; }
         public virtual int? LastValue { get; set; }
-        public enum Type
-        {
-            Income = 1,
-            Expense = 0
-        }
+        public virtual TypeEnum Type { get; set; }
     }
 }

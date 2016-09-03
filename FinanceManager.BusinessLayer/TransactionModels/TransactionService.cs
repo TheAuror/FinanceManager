@@ -4,14 +4,17 @@ using FinanceManager.BusinessLayer.CategoryModels;
 using FinanceManager.BusinessLayer.Common;
 using FinanceManager.BusinessLayer.UserModels;
 using FinanceManager.DataLayer;
+using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.TransactionModels
 {
     public class TransactionService : BaseService, ITransactionService
     {
-        public TransactionService(ISampleContext context) : base(context)
-        {
+        private readonly ICategoryService _categoryService;
 
+        public TransactionService(ISampleContext context, ICategoryService categoryService) : base(context)
+        {
+            _categoryService = categoryService;
         }
 
         public List<TransactionModel> GetTransactions()
@@ -44,7 +47,8 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                         Name = e.IncomeItem.Category.Name
                     },
                     LastValue = e.IncomeItem.LastValue,
-                    Name = e.IncomeItem.Name
+                    Name = e.IncomeItem.Name,
+                    Type = BaseModel.TypeEnum.Income
                 },
                 CreatedTime = e.CreatedTime,
                 Value = e.Value,
@@ -75,7 +79,8 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                         Name = e.ExpenseItem.Category.Name
                     },
                     LastValue = e.ExpenseItem.LastValue,
-                    Name = e.ExpenseItem.Name
+                    Name = e.ExpenseItem.Name,
+                    Type = BaseModel.TypeEnum.Expense
                 },
                 CreatedTime = e.CreatedTime,
                 Value = e.Value,
@@ -102,7 +107,8 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                     Id = e.Category.Id,
                     Name = e.Category.Name
                 },
-                LastValue = e.LastValue
+                LastValue = e.LastValue,
+                Type = BaseModel.TypeEnum.Income
             }).ToList();
         }
 
@@ -118,18 +124,58 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                     Id = e.Category.Id,
                     Name = e.Category.Name
                 },
-                LastValue = e.LastValue
+                LastValue = e.LastValue,
+                Type = BaseModel.TypeEnum.Expense
             }).ToList();
         }
 
         public void SaveTransaction(TransactionModel transactionModel)
         {
-            throw new System.NotImplementedException();
+            if (transactionModel.Type == BaseModel.TypeEnum.Income)
+            {
+                IncomeEntity income = new IncomeEntity
+                {
+                    
+                };
+                Context.Incomes.Add(income);
+            }
+            else
+            {
+                ExpenseEntity expense = new ExpenseEntity
+                {
+                    
+                };
+                Context.Expenses.Add(expense);
+            }
+            Context.SaveChanges();
         }
 
         public void SaveTransactionItem(TransactionItemModel transactionItemModel)
         {
-            throw new System.NotImplementedException();
+            CategoryModel category = _categoryService.GetCategory(transactionItemModel.Category.Name);
+            object item;
+            if (transactionItemModel.Type == BaseModel.TypeEnum.Income)
+            {
+                item = new IncomeItemEntity
+                {
+                    Name = transactionItemModel.Name,
+                    Category = Context.Categorys.FirstOrDefault(e => e.Id == category.Id),
+                    CategoryId = category.Id,
+                    LastValue = transactionItemModel.LastValue
+                };
+            }
+            else
+            {                
+                item = new ExpenseItemEntity
+                {
+                    Name = transactionItemModel.Name,
+                    Category = Context.Categorys.FirstOrDefault(e => e.Id == category.Id),
+                    CategoryId = category.Id,
+                    LastValue = transactionItemModel.LastValue
+                };
+            }
+            Context.ExpenseItems.Add(item);
+            Context.SaveChanges();
         }
     }
 }

@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryModels\CategoryModel.cs" />
+    <Compile Include="CategoryModels\CategoryService.cs" />
+    <Compile Include="CategoryModels\ICategoryService.cs" />
     <Compile Include="Common\BaseModel.cs" />
     <Compile Include="Common\BaseService.cs" />
     <Compile Include="Common\BusinessLayerModule.cs" />
