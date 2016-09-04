@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.TransactionModels
 {
@@ -10,7 +11,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         List<TransactionItemModel> GetTransactionItems();
         List<TransactionItemModel> GetIncomeItems();
         List<TransactionItemModel> GetExpenseItems();
-        void SaveTransaction(TransactionModel transactionModel);
-        void SaveTransactionItem(TransactionItemModel transactionItemModel);
+        TransactionEntity SaveTransaction(TransactionModel transactionModel);
+        TransactionItemEntity SaveTransactionItem(TransactionItemModel transactionItemModel);
     }
 }

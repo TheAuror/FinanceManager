@@ -4,6 +4,7 @@ using FinanceManager.BusinessLayer.CategoryModels;
 using FinanceManager.BusinessLayer.Common;
 using FinanceManager.BusinessLayer.UserModels;
 using FinanceManager.DataLayer;
+using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.TransactionModels
 {
@@ -67,14 +68,40 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             return GetTransactionItems().Where(e => e.Type == BaseModel.TypeEnum.Expense).ToList();
         }
 
-        public void SaveTransaction(TransactionModel transactionModel)
+        public TransactionEntity SaveTransaction(TransactionModel transactionModel)
         {
-            throw new System.NotImplementedException();
+            TransactionEntity entity = new TransactionEntity
+            {
+                TransactionItem = SaveTransactionItem(transactionModel.Item),
+                CreatedTime = transactionModel.CreatedTime,
+                User = Context.Users.FirstOrDefault(e => e.UserName == transactionModel.User.UserName),
+                IsIncome = transactionModel.Type == BaseModel.TypeEnum.Income,
+                Value = transactionModel.Value
+            };
+            entity.TransactionItemId = entity.TransactionItem.Id;
+            entity.UserId = entity.User.Id;
+            Context.Transactions.Add(entity);
+            Context.SaveChanges();
+            return entity;
         }
 
-        public void SaveTransactionItem(TransactionItemModel transactionItemModel)
+        public TransactionItemEntity SaveTransactionItem(TransactionItemModel transactionItemModel)
         {
-            throw new System.NotImplementedException();
+            if (Context.TransactionItems.Any(e => e.Name == transactionItemModel.Name))
+            {
+                return Context.TransactionItems.FirstOrDefault(e => e.Name == transactionItemModel.Name);
+            }
+            TransactionItemEntity entity = new TransactionItemEntity
+            {
+                Name = transactionItemModel.Name,
+                Category = _categoryService.SaveCategory(transactionItemModel.Category),
+                IsIncome = transactionItemModel.Type == BaseModel.TypeEnum.Income,
+                LastValue = transactionItemModel.LastValue
+            };
+            entity.CategoryId = entity.Category.Id;
+            Context.TransactionItems.Add(entity);
+            Context.SaveChanges();
+            return entity;
         }
     }
 }

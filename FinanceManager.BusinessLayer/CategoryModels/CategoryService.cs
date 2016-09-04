@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FinanceManager.BusinessLayer.Common;
 using FinanceManager.DataLayer;
+using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.CategoryModels
 {
@@ -10,19 +13,30 @@ namespace FinanceManager.BusinessLayer.CategoryModels
         {
         }
 
-        public CategoryModel GetCategory(string name)
-        {
-            throw new System.NotImplementedException();
-        }
+        public CategoryModel GetCategory(string name) => GetCategorys().First(e => String.Equals(e.Name, name, StringComparison.CurrentCultureIgnoreCase));
 
         public List<CategoryModel> GetCategorys()
         {
-            throw new System.NotImplementedException();
+            return Context.Categorys.Select(e => new CategoryModel
+            {
+                Id = e.Id,
+                Name = e.Name
+            }).ToList();
         }
 
-        public void SaveCategory(CategoryModel category)
+        public CategoryEntity SaveCategory(CategoryModel category)
         {
-            throw new System.NotImplementedException();
+            if (Context.Categorys.Any(e => e.Name == category.Name))
+            {
+                return Context.Categorys.First(e => e.Name == category.Name);
+            }
+            CategoryEntity entity = new CategoryEntity
+            {
+                Name = category.Name
+            };
+            Context.Categorys.Add(entity);
+            Context.SaveChanges();
+            return entity;
         }
     }
 }

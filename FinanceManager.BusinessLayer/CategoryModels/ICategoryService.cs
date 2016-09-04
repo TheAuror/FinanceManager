@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.CategoryModels
 {
@@ -6,6 +7,6 @@ namespace FinanceManager.BusinessLayer.CategoryModels
     {
         CategoryModel GetCategory(string name);
         List<CategoryModel> GetCategorys();
-        void SaveCategory(CategoryModel category);
+        CategoryEntity SaveCategory(CategoryModel category);
     }
 }

@@ -1,5 +1,8 @@
-﻿using FinanceManager.BusinessLayer.Common;
+﻿using System.Linq;
+using System.Linq.Expressions;
+using FinanceManager.BusinessLayer.Common;
 using FinanceManager.DataLayer;
+using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.UserModels
 {
@@ -11,12 +14,36 @@ namespace FinanceManager.BusinessLayer.UserModels
 
         public UserModel GetUser(int id)
         {
-            throw new System.NotImplementedException();
+            if (Context.Users.Any(e => e.Id == id))
+            {
+                UserModel model = new UserModel();
+                UserEntity entity = Context.Users.FirstOrDefault(e => e.Id == id);
+                model.Id = entity?.Id;
+                model.UserName = entity?.UserName;
+                model.Password = entity?.Password;
+                return model;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public UserModel GetUser(string username)
         {
-            throw new System.NotImplementedException();
+            if (Context.Users.Any(e => e.UserName == username))
+            {
+                UserModel model = new UserModel();
+                UserEntity entity = Context.Users.FirstOrDefault(e => e.UserName == username);
+                model.Id = entity?.Id;
+                model.UserName = entity?.UserName;
+                model.Password = entity?.Password;
+                return model;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
