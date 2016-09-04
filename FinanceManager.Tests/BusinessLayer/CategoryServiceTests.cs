@@ -46,7 +46,7 @@ namespace FinanceManager.Tests.BusinessLayer
         }
 
         [Test]
-        public void GetCategorys_asd_ShouldReturnAllCategorys()
+        public void GetCategorys_ShouldReturnAllCategorys()
         {
             ISampleContext context = _sampleContextMock.Object;
             CategoryService objectUnderTest = new CategoryService(context);
@@ -59,6 +59,19 @@ namespace FinanceManager.Tests.BusinessLayer
             result.Should().HaveCount(_categoryList.Count);
         }
 
+        [Test]
+        public void GetCategory_OnVariousStrings_ShouldReturnTheGoodResults()
+        {
+            ISampleContext context = _sampleContextMock.Object;
+            CategoryService objectUnderTest = new CategoryService(context);
 
+            var result = objectUnderTest.GetCategory("Name");
+            var result2 = objectUnderTest.GetCategory("WrongString");
+
+            //result.Should().NotBeNull();
+            //result.Should().Be(_categoryList.FirstOrDefault(e => e.Name.Contains("Name")));
+
+            //result2.Should().BeNull();
+        }
     }
 }

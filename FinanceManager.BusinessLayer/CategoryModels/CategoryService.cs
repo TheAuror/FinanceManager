@@ -13,7 +13,17 @@ namespace FinanceManager.BusinessLayer.CategoryModels
         {
         }
 
-        public CategoryModel GetCategory(string name) => GetCategorys().First(e => String.Equals(e.Name, name, StringComparison.CurrentCultureIgnoreCase));
+        public CategoryModel GetCategory(string name)
+        {
+            if (Context.Categorys.Any(e => e.Name.ToLower() == name.ToLower()))
+            {
+                return GetCategorys().FirstOrDefault(e => e.Name.ToLower() == name.ToLower());
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public List<CategoryModel> GetCategorys()
         {
