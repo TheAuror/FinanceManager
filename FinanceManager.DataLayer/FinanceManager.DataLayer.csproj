@@ -56,15 +56,13 @@
     <Compile Include="Common\DataLayerModule.cs" />
     <Compile Include="Common\PasswordHelper.cs" />
     <Compile Include="Entities\CategoryEntity.cs" />
-    <Compile Include="Entities\ExpenseEntity.cs" />
-    <Compile Include="Entities\ExpenseItemEntity.cs" />
-    <Compile Include="Entities\IncomeEntity.cs" />
-    <Compile Include="Entities\IncomeItemEntity.cs" />
+    <Compile Include="Entities\TransactionEntity.cs" />
+    <Compile Include="Entities\TransactionItemEntity.cs" />
     <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="ISampleContext.cs" />
-    <Compile Include="Migrations\201609031426338_Initial.cs" />
-    <Compile Include="Migrations\201609031426338_Initial.Designer.cs">
-      <DependentUpon>201609031426338_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201609032351447_Initial.cs" />
+    <Compile Include="Migrations\201609032351447_Initial.Designer.cs">
+      <DependentUpon>201609032351447_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,10 +72,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609031426338_Initial.resx">
-      <DependentUpon>201609031426338_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609032351447_Initial.resx">
+      <DependentUpon>201609032351447_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

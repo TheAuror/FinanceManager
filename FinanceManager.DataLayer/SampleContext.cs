@@ -17,13 +17,9 @@ namespace FinanceManager.DataLayer
 
         public IDbSet<CategoryEntity> Categorys => Set<CategoryEntity>();
 
-        public IDbSet<ExpenseEntity> Expenses => Set<ExpenseEntity>();
+        public IDbSet<TransactionEntity> Transactions => Set<TransactionEntity>();
 
-        public IDbSet<ExpenseItemEntity> ExpenseItems => Set<ExpenseItemEntity>();
-
-        public IDbSet<IncomeEntity> Incomes => Set<IncomeEntity>();
-
-        public IDbSet<IncomeItemEntity> IncomeItems => Set<IncomeItemEntity>();
+        public IDbSet<TransactionItemEntity> TransactionItems => Set<TransactionItemEntity>();
 
         public IDbSet<UserEntity> Users => Set<UserEntity>();
     }

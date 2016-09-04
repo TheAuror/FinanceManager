@@ -10,7 +10,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         public virtual int? UserId { get; set; }
         public virtual UserModel User { get; set; }
         public virtual int? ItemId { get; set; }
-        public virtual TransactionItemModel TransactionItem { get; set; }
+        public virtual TransactionItemModel Item { get; set; }
         public virtual int Value { get; set; }
         public virtual DateTime CreatedTime { get; set; }
         public virtual TypeEnum Type { get; set; }

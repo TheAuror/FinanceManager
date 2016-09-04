@@ -64,7 +64,9 @@
     <Compile Include="TransactionModels\TransactionItemModel.cs" />
     <Compile Include="TransactionModels\TransactionModel.cs" />
     <Compile Include="TransactionModels\TransactionService.cs" />
+    <Compile Include="UserModels\IUserService.cs" />
     <Compile Include="UserModels\UserModel.cs" />
+    <Compile Include="UserModels\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

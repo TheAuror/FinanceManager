@@ -13,7 +13,7 @@ namespace FinanceManager.DataLayer.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201609031426338_Initial"; }
+            get { return "201609032351447_Initial"; }
         }
         
         string IMigrationMetadata.Source
