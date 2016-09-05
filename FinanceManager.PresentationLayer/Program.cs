@@ -1,19 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Autofac;
+using FinanceManager.BusinessLayer.CategoryModels;
+using FinanceManager.BusinessLayer.TransactionModels;
+using FinanceManager.BusinessLayer.UserModels;
+using FinanceManager.PresentationLayer.UserViews;
 
 namespace FinanceManager.PresentationLayer
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        public static IContainer Container;
         [STAThread]
         static void Main()
         {
+            ContainerBuilder builder = new ContainerBuilder();
+
+            builder.RegisterAssemblyModules(typeof(ICategoryService).Assembly);
+            builder.RegisterAssemblyModules(typeof(ITransactionService).Assembly);
+            builder.RegisterAssemblyModules(typeof(IUserService).Assembly);
+            builder.RegisterType<LoginViewModel>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<LoginForm>().AsSelf().InstancePerLifetimeScope();
+
+            Container = builder.Build();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

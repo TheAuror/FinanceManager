@@ -65,13 +65,14 @@ namespace FinanceManager.Tests.BusinessLayer
             ISampleContext context = _sampleContextMock.Object;
             CategoryService objectUnderTest = new CategoryService(context);
 
-            var result = objectUnderTest.GetCategory("Name");
-            var result2 = objectUnderTest.GetCategory("WrongString");
+            var result = objectUnderTest.GetCategory("Name0");
+            var result2 = objectUnderTest.GetCategory("WrongName");
 
-            //result.Should().NotBeNull();
-            //result.Should().Be(_categoryList.FirstOrDefault(e => e.Name.Contains("Name")));
+            result.Should().NotBeNull();
+            result.Id.Should().Be(0);
+            result.Name.Should().Be("Name0");
 
-            //result2.Should().BeNull();
+            result2.Should().BeNull();
         }
     }
 }

@@ -1,13 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using FinanceManager.BusinessLayer.Common;
 using FinanceManager.DataLayer;
+using FinanceManager.DataLayer.Common;
 using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.UserModels
 {
     public class UserService : BaseService, IUserService
     {
+        public UserModel LoggedInUser { get; set; }
+
         public UserService(ISampleContext context) : base(context)
         {
         }
@@ -44,6 +48,37 @@ namespace FinanceManager.BusinessLayer.UserModels
             {
                 return null;
             }
+        }
+
+        public bool SaveUser(UserModel user)
+        {
+            if(String.IsNullOrWhiteSpace(user.Password)) return false;
+            if(String.IsNullOrWhiteSpace(user.UserName)) return false;
+            UserEntity entity = new UserEntity
+            {
+                UserName = user.UserName,
+                Password = PasswordHelper.EncryptPassword(user.Password)
+            };
+            Context.Users.Add(entity);
+            Context.SaveChanges();
+            return true;
+        }
+
+        public UserModel Login(string username, string password)
+        {
+            UserModel user = Context.Users.Where(e => e.UserName == username).Select(e => new UserModel
+            {
+                Id = e.Id,
+                UserName = e.UserName,
+                Password = e.Password
+            }).FirstOrDefault();
+            if (user == null) return null;
+            if (PasswordHelper.CheckPassword(password, user.Password))
+            {
+                LoggedInUser = user;
+                return user;
+            }
+            return null;
         }
     }
 }
