@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using FinanceManager.BusinessLayer.Common;
 using FinanceManager.DataLayer;
-using FinanceManager.DataLayer.Common;
 using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.UserModels
