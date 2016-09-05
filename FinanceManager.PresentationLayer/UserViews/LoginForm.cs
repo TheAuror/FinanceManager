@@ -30,5 +30,10 @@ namespace FinanceManager.PresentationLayer.UserViews
                 e.Cancel = true;
             }
         }
+
+        private void registrationLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            _loginViewModel.Register();
+        }
     }
 }

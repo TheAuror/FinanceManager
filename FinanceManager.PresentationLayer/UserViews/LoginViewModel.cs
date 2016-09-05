@@ -53,5 +53,21 @@ namespace FinanceManager.PresentationLayer.UserViews
                 args.Cancel = true;
             }
         }
+
+        public void Register()
+        {
+            if (_userService.GetUser(UserName) != null)
+            {
+                MessageBox.Show("Foglalt felhasználónév!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (Password.Length < 8)
+            {
+                MessageBox.Show("Túl rövid jelszó!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            _userService.SaveUser(new UserModel {UserName = UserName, Password = Password});
+            MessageBox.Show("Sikeres regisztráció!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
     }
 }

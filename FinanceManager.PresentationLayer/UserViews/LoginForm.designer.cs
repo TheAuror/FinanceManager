@@ -32,10 +32,11 @@
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.usernameTextBox = new System.Windows.Forms.TextBox();
+            this.loginBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.usernameLabel = new System.Windows.Forms.Label();
             this.passwordLabel = new System.Windows.Forms.Label();
-            this.loginBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.registrationLinkLabel = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.loginBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,6 +68,10 @@
             this.usernameTextBox.Size = new System.Drawing.Size(203, 20);
             this.usernameTextBox.TabIndex = 2;
             // 
+            // loginBindingSource
+            // 
+            this.loginBindingSource.DataSource = typeof(FinanceManager.PresentationLayer.UserViews.LoginViewModel);
+            // 
             // passwordTextBox
             // 
             this.passwordTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.loginBindingSource, "Password", true));
@@ -94,9 +99,16 @@
             this.passwordLabel.TabIndex = 5;
             this.passwordLabel.Text = "Jelszó:";
             // 
-            // loginBindingSource
+            // registrationLinkLabel
             // 
-            this.loginBindingSource.DataSource = typeof(FinanceManager.PresentationLayer.UserViews.LoginViewModel);
+            this.registrationLinkLabel.AutoSize = true;
+            this.registrationLinkLabel.Location = new System.Drawing.Point(240, 55);
+            this.registrationLinkLabel.Name = "registrationLinkLabel";
+            this.registrationLinkLabel.Size = new System.Drawing.Size(65, 13);
+            this.registrationLinkLabel.TabIndex = 6;
+            this.registrationLinkLabel.TabStop = true;
+            this.registrationLinkLabel.Text = "Regisztráció";
+            this.registrationLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.registrationLinkLabel_LinkClicked);
             // 
             // LoginForm
             // 
@@ -105,6 +117,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(317, 109);
+            this.Controls.Add(this.registrationLinkLabel);
             this.Controls.Add(this.passwordLabel);
             this.Controls.Add(this.usernameLabel);
             this.Controls.Add(this.passwordTextBox);
@@ -112,7 +125,7 @@
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Name = "LoginForm";
-            this.Text = "LoginForm";
+            this.Text = "Bejelentkezés";
             this.Activated += new System.EventHandler(this.LoginForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.loginBindingSource)).EndInit();
@@ -130,5 +143,6 @@
         private System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.BindingSource loginBindingSource;
+        private System.Windows.Forms.LinkLabel registrationLinkLabel;
     }
 }
