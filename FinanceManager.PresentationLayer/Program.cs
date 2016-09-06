@@ -4,6 +4,7 @@ using Autofac;
 using FinanceManager.BusinessLayer.CategoryModels;
 using FinanceManager.BusinessLayer.TransactionModels;
 using FinanceManager.BusinessLayer.UserModels;
+using FinanceManager.PresentationLayer.MainViews;
 using FinanceManager.PresentationLayer.UserViews;
 
 namespace FinanceManager.PresentationLayer
@@ -21,12 +22,14 @@ namespace FinanceManager.PresentationLayer
             builder.RegisterAssemblyModules(typeof(IUserService).Assembly);
             builder.RegisterType<LoginViewModel>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<LoginForm>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<MainViewModel>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<MainForm>().AsSelf().InstancePerLifetimeScope();
 
             Container = builder.Build();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(Container.Resolve<MainForm>());
         }
     }
 }

@@ -15,9 +15,9 @@ namespace FinanceManager.BusinessLayer.CategoryModels
 
         public CategoryModel GetCategory(string name)
         {
-            if (Context.Categorys.Any(e => String.Equals(e.Name, name, StringComparison.CurrentCultureIgnoreCase)))
+            if (Context.Categorys.Any(e => string.Equals(e.Name, name, StringComparison.CurrentCultureIgnoreCase)))
             {
-                return GetCategorys().FirstOrDefault(e => String.Equals(name, e.Name, StringComparison.CurrentCultureIgnoreCase));
+                return GetCategorys().FirstOrDefault(e => string.Equals(name, e.Name, StringComparison.CurrentCultureIgnoreCase));
             }
             else
             {

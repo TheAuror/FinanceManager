@@ -25,15 +25,16 @@ namespace FinanceManager.PresentationLayer.UserViews
             {
                 _loginViewModel.Login(e);
             }
-            else
-            {
-                e.Cancel = true;
-            }
         }
 
         private void registrationLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _loginViewModel.Register();
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            usernameTextBox.Text = Properties.Settings.Default["LastLoggedInUser"].ToString();
         }
     }
 }

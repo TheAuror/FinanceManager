@@ -2,13 +2,17 @@
 using Autofac;
 using FinanceManager.PresentationLayer.UserViews;
 
-namespace FinanceManager.PresentationLayer
+namespace FinanceManager.PresentationLayer.MainViews
 {
     public partial class MainForm : Form
     {
-        public MainForm()
+        private readonly MainViewModel _mainViewModel;
+        public MainForm(MainViewModel mainViewModel)
         {
+            _mainViewModel = mainViewModel;
             InitializeComponent();
+            _mainViewModel.ItemNames.Add("asdasdasd");
+            itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
         }
 
         private void MainForm_Load(object sender, System.EventArgs e)
@@ -21,7 +25,13 @@ namespace FinanceManager.PresentationLayer
                 {
                     Close();
                 }
+                WindowState = FormWindowState.Maximized;
             }
+        }
+
+        private void toggleSwitch_CheckedChanged(object sender, System.EventArgs e)
+        {
+
         }
     }
 }

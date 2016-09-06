@@ -50,8 +50,8 @@ namespace FinanceManager.BusinessLayer.UserModels
 
         public bool SaveUser(UserModel user)
         {
-            if(String.IsNullOrWhiteSpace(user.Password)) return false;
-            if(String.IsNullOrWhiteSpace(user.UserName)) return false;
+            if(string.IsNullOrWhiteSpace(user.Password)) return false;
+            if(string.IsNullOrWhiteSpace(user.UserName)) return false;
             UserEntity entity = new UserEntity
             {
                 UserName = user.UserName,

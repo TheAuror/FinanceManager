@@ -42,10 +42,17 @@ namespace FinanceManager.PresentationLayer.UserViews
 
         public void Login(CancelEventArgs args)
         {
+            if (string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(UserName))
+            {
+                args.Cancel = true;
+                return;
+            }
             UserModel userModel = _userService.Login(UserName, Password);
             if (userModel != null)
             {
                 _userService.LoggedInUser = userModel;
+                Properties.Settings.Default["LastLoggedInUser"] = userModel.UserName;
+                Properties.Settings.Default.Save();
             }
             else
             {
