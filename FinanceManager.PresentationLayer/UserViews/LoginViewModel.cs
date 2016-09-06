@@ -50,7 +50,6 @@ namespace FinanceManager.PresentationLayer.UserViews
             UserModel userModel = _userService.Login(UserName, Password);
             if (userModel != null)
             {
-                _userService.LoggedInUser = userModel;
                 Properties.Settings.Default["LastLoggedInUser"] = userModel.UserName;
                 Properties.Settings.Default.Save();
             }

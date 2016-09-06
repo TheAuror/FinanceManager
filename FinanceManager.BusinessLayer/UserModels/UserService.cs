@@ -64,18 +64,18 @@ namespace FinanceManager.BusinessLayer.UserModels
 
         public UserModel Login(string username, string password)
         {
-            UserModel user = Context.Users.Where(e => e.UserName == username).Select(e => new UserModel
+            LoggedInUser = Context.Users.Where(e => e.UserName == username).Select(e => new UserModel
             {
                 Id = e.Id,
                 UserName = e.UserName,
                 Password = e.Password
             }).FirstOrDefault();
-            if (user == null) return null;
-            if (PasswordHelper.CheckPassword(password, user.Password))
+            if (LoggedInUser == null) return null;
+            if (PasswordHelper.CheckPassword(password, LoggedInUser.Password))
             {
-                LoggedInUser = user;
-                return user;
+                return LoggedInUser;
             }
+            LoggedInUser = null;
             return null;
         }
     }

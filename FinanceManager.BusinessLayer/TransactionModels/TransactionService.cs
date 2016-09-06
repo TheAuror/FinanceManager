@@ -47,15 +47,20 @@ namespace FinanceManager.BusinessLayer.TransactionModels
 
         public List<TransactionItemModel> GetTransactionItems()
         {
-            return Context.TransactionItems.Select(e => new TransactionItemModel
+            List<TransactionItemModel> list = new List<TransactionItemModel>();
+            foreach (var e in Context.TransactionItems.AsParallel())
             {
-                Id = e.Id,
-                Name = e.Name,
-                CategoryId = e.Category.Id,
-                Category = _categoryService.GetCategory(e.Category.Name),
-                LastValue = e.LastValue,
-                Type = e.IsIncome?BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
-            }).ToList();
+                list.Add(new TransactionItemModel
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    CategoryId = e.Category.Id,
+                    Category = _categoryService.GetCategory(e.Category.Name),
+                    LastValue = e.LastValue,
+                    Type = e.IsIncome ? BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
+                });
+            }
+            return list;
         }
 
         public List<TransactionItemModel> GetIncomeItems()

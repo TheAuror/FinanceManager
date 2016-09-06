@@ -19,11 +19,12 @@ namespace FinanceManager.PresentationLayer.MainViews
         public MainViewModel(IUserService userService, ITransactionService transactionService, ICategoryService categoryService)
         {
             _userService = userService;
-            _categoryService = categoryService;
+            _categoryService = categoryService;            
+            _transactionService = transactionService;
             IncomeItems = new BindingList<TransactionItemModel>();
             ExpenseItems = new BindingList<TransactionItemModel>();
             ItemNames = new AutoCompleteStringCollection();
-            _transactionService = transactionService;
+            Transaction = new TransactionModel {Item = new TransactionItemModel()};
         }
 
         public TransactionModel Transaction { get; set; }
@@ -48,7 +49,7 @@ namespace FinanceManager.PresentationLayer.MainViews
         {
             IncomeItems.Clear();
             ItemNames.Clear();
-            foreach (var item in _allItems.Where(e => e.Name.Contains(Transaction.Item.Name)))
+            foreach (var item in _allItems.Where(e => e.Name.Contains(Transaction.Item.Name ?? "")))
             {
                 IncomeItems.Add(item);
                 ItemNames.Add(item.Name);
@@ -70,6 +71,11 @@ namespace FinanceManager.PresentationLayer.MainViews
         {
             Transaction.UserId = _userService.LoggedInUser.Id;
             Transaction.User = _userService.LoggedInUser;
+            _transactionService.SaveTransactionItem(Transaction.Item);
+            Transaction.Item = _allItems.FirstOrDefault(e => e.Name == Transaction.Item.Name);
+            Transaction.ItemId = Transaction.Item?.Id;
+            _transactionService.SaveTransaction(Transaction);
+            LoadTransactionItems();
         }
     }
 }

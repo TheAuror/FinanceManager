@@ -1,3 +1,5 @@
+using FinanceManager.DataLayer.Entities;
+
 namespace FinanceManager.DataLayer.Migrations
 {
     using System;
@@ -14,7 +16,13 @@ namespace FinanceManager.DataLayer.Migrations
 
         protected override void Seed(FinanceManager.DataLayer.SampleContext context)
         {
-
+            if (!context.Categorys.Any())
+            {
+                context.Categorys.Add(new CategoryEntity
+                {
+                    Name = "Default"
+                });
+            }
         }
     }
 }

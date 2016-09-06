@@ -20,10 +20,10 @@ namespace FinanceManager.PresentationLayer
             builder.RegisterAssemblyModules(typeof(ICategoryService).Assembly);
             builder.RegisterAssemblyModules(typeof(ITransactionService).Assembly);
             builder.RegisterAssemblyModules(typeof(IUserService).Assembly);
-            builder.RegisterType<LoginViewModel>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<LoginForm>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<MainViewModel>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<MainForm>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<LoginViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<LoginForm>().AsSelf().SingleInstance();
+            builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<MainForm>().AsSelf().SingleInstance();
 
             Container = builder.Build();
 

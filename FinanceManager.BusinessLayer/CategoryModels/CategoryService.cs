@@ -15,7 +15,7 @@ namespace FinanceManager.BusinessLayer.CategoryModels
 
         public CategoryModel GetCategory(string name)
         {
-            if (Context.Categorys.Any(e => string.Equals(e.Name, name, StringComparison.CurrentCultureIgnoreCase)))
+            if (Context.Categorys.Any(e => e.Name == name))
             {
                 return GetCategorys().FirstOrDefault(e => string.Equals(name, e.Name, StringComparison.CurrentCultureIgnoreCase));
             }
@@ -36,6 +36,10 @@ namespace FinanceManager.BusinessLayer.CategoryModels
 
         public CategoryEntity SaveCategory(CategoryModel category)
         {
+            if (category == null)
+            {
+                return Context.Categorys.First(e => e.Name == "Default");
+            }
             if (Context.Categorys.Any(e => e.Name == category.Name))
             {
                 return Context.Categorys.First(e => e.Name == category.Name);
