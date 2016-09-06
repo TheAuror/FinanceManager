@@ -115,10 +115,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ToggleSwitch\ToggleSwitch\ToggleSwitch.csproj">
-      <Project>{49B88FFA-F02C-4709-BA65-9F8996444ECD}</Project>
-      <Name>ToggleSwitch</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FinanceManager.BusinessLayer\FinanceManager.BusinessLayer.csproj">
       <Project>{e41bd6d2-6052-466b-a8c9-85d1fbcd6991}</Project>
       <Name>FinanceManager.BusinessLayer</Name>
@@ -126,6 +122,10 @@
     <ProjectReference Include="..\FinanceManager.DataLayer\FinanceManager.DataLayer.csproj">
       <Project>{d2e601ef-16a5-4638-834f-79ae0f77be81}</Project>
       <Name>FinanceManager.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToggleSwitch\ToggleSwitch.csproj">
+      <Project>{49B88FFA-F02C-4709-BA65-9F8996444ECD}</Project>
+      <Name>ToggleSwitch</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
