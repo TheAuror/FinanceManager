@@ -42,8 +42,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toggleSwitch = new JCS.ToggleSwitch();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.menuPanel.SuspendLayout();
             this.sidePanel.SuspendLayout();
             this.SuspendLayout();
@@ -79,6 +79,7 @@
             this.itemListOpenButton.TabStop = false;
             this.itemListOpenButton.Text = "Termékek Szolgáltatások";
             this.itemListOpenButton.UseVisualStyleBackColor = true;
+            this.itemListOpenButton.Click += new System.EventHandler(this.itemListOpenButton_Click);
             // 
             // transactionListOpenButton
             // 
@@ -118,6 +119,7 @@
             this.itemNameTextBox.Size = new System.Drawing.Size(180, 20);
             this.itemNameTextBox.TabIndex = 0;
             this.itemNameTextBox.TextChanged += new System.EventHandler(this.itemNameTextBox_TextChanged);
+            this.itemNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemNameTextBox_KeyDown);
             // 
             // saveTransactionButton
             // 
@@ -200,17 +202,8 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Tranzakció típusa:";
             // 
-            // statusStrip
-            // 
-            this.statusStrip.Location = new System.Drawing.Point(0, 724);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(957, 22);
-            this.statusStrip.TabIndex = 100;
-            this.statusStrip.Text = "statusStrip1";
-            // 
             // toggleSwitch
             // 
-            this.toggleSwitch.Checked = true;
             this.toggleSwitch.Location = new System.Drawing.Point(6, 27);
             this.toggleSwitch.Name = "toggleSwitch";
             this.toggleSwitch.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -225,6 +218,14 @@
             this.toggleSwitch.TabStop = false;
             this.toggleSwitch.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.toggleSwitch_CheckedChanged);
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Location = new System.Drawing.Point(0, 724);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(957, 22);
+            this.statusStrip.TabIndex = 100;
+            this.statusStrip.Text = "statusStrip1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,7 +237,7 @@
             this.Controls.Add(this.menuPanel);
             this.IsMdiContainer = true;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "FinanceManager";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuPanel.ResumeLayout(false);
             this.sidePanel.ResumeLayout(false);

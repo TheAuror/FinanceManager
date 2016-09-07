@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CsvHelper;
 using FinanceManager.BusinessLayer.CategoryModels;
 using FinanceManager.BusinessLayer.Common;
 using FinanceManager.BusinessLayer.UserModels;
@@ -108,5 +112,30 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             Context.SaveChanges();
             return entity;
         }
-    }
+
+        public async Task<bool> SaveTransactionItemsAsync(string filePath)
+        {
+            List<TransactionItemModel> students = null;
+            await Task.Run(() =>
+            {
+                using (StreamReader reader = (new StreamReader(filePath, Encoding.GetEncoding("ISO-8859-2"))))
+                {
+                    var csv = new CsvReader(reader);
+                    csv.Configuration.Delimiter = ";";
+                    csv.Configuration.HasHeaderRecord = true;
+                    csv.Configuration.RegisterClassMap<TransactionItemClassMap>();
+                    students = new List<TransactionItemModel>(csv.GetRecords<TransactionItemModel>().ToList());
+                }
+            });
+            foreach (var item in students)
+            {
+                var itemTemp = item;
+                await Task.Run(() =>
+                {
+                    SaveTransactionItem(itemTemp);
+                });
+            }
+            return true;
+        }
+    }    
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.TransactionModels
@@ -13,5 +14,6 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         List<TransactionItemModel> GetExpenseItems();
         TransactionEntity SaveTransaction(TransactionModel transactionModel);
         TransactionItemEntity SaveTransactionItem(TransactionItemModel transactionItemModel);
+        Task<bool> SaveTransactionItemsAsync(string filePath);
     }
 }

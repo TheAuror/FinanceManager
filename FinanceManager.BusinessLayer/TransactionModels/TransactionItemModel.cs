@@ -9,7 +9,9 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         public virtual string Name { get; set; }
         public virtual int? CategoryId { get; set; }
         public virtual CategoryModel Category { get; set; }
+        public virtual string CategoryName => Category.Name;
         public virtual int? LastValue { get; set; }
         public virtual TypeEnum Type { get; set; }
+        public virtual string TypeString => Type == TypeEnum.Income ? "Bevétel" : "Kiadás";
     }
 }

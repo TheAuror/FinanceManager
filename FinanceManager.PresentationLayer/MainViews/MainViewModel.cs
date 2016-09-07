@@ -24,7 +24,13 @@ namespace FinanceManager.PresentationLayer.MainViews
             IncomeItems = new BindingList<TransactionItemModel>();
             ExpenseItems = new BindingList<TransactionItemModel>();
             ItemNames = new AutoCompleteStringCollection();
-            Transaction = new TransactionModel {Item = new TransactionItemModel()};
+            Transaction = new TransactionModel
+            {
+                Item = new TransactionItemModel
+                {
+                    Type = BaseModel.TypeEnum.Expense            
+                }
+            };
         }
 
         public TransactionModel Transaction { get; set; }
@@ -60,7 +66,7 @@ namespace FinanceManager.PresentationLayer.MainViews
         {
             ExpenseItems.Clear();
             ItemNames.Clear();
-            foreach (var item in _allItems.Where(e => e.Name.Contains(Transaction.Item.Name)))
+            foreach (var item in _allItems.Where(e => e.Name.Contains(Transaction.Item.Name ?? "")))
             {
                 ExpenseItems.Add(item);
                 ItemNames.Add(item.Name);
@@ -71,8 +77,9 @@ namespace FinanceManager.PresentationLayer.MainViews
         {
             Transaction.UserId = _userService.LoggedInUser.Id;
             Transaction.User = _userService.LoggedInUser;
+            Transaction.Item.Type = Transaction.Type;
             _transactionService.SaveTransactionItem(Transaction.Item);
-            Transaction.Item = _allItems.FirstOrDefault(e => e.Name == Transaction.Item.Name);
+            Transaction.Item = _transactionService.GetTransactionItems().FirstOrDefault(e => e.Name == Transaction.Item.Name);
             Transaction.ItemId = Transaction.Item?.Id;
             _transactionService.SaveTransaction(Transaction);
             LoadTransactionItems();

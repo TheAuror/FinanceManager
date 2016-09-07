@@ -5,6 +5,7 @@ using FinanceManager.BusinessLayer.CategoryModels;
 using FinanceManager.BusinessLayer.TransactionModels;
 using FinanceManager.BusinessLayer.UserModels;
 using FinanceManager.PresentationLayer.MainViews;
+using FinanceManager.PresentationLayer.TransactionItemViews;
 using FinanceManager.PresentationLayer.UserViews;
 
 namespace FinanceManager.PresentationLayer
@@ -22,6 +23,8 @@ namespace FinanceManager.PresentationLayer
             builder.RegisterAssemblyModules(typeof(IUserService).Assembly);
             builder.RegisterType<LoginViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<LoginForm>().AsSelf().SingleInstance();
+            builder.RegisterType<TransactionItemListViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<TransactionItemListForm>().AsSelf().SingleInstance();
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<MainForm>().AsSelf().SingleInstance();
 
