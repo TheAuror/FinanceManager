@@ -24,6 +24,8 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             _userService = userService;
         }
 
+        List<TransactionItemModel> TransactionItems { get; set; } 
+
         public List<TransactionModel> GetTransactions()
         {
             return Context.Transactions.Select(e => new TransactionModel
@@ -51,20 +53,24 @@ namespace FinanceManager.BusinessLayer.TransactionModels
 
         public List<TransactionItemModel> GetTransactionItems()
         {
-            List<TransactionItemModel> list = new List<TransactionItemModel>();
-            foreach (var e in Context.TransactionItems.AsParallel())
+            if (TransactionItems == null)
             {
-                list.Add(new TransactionItemModel
+                TransactionItems = new List<TransactionItemModel>();
+                List<TransactionItemEntity> temp = Context.TransactionItems.ToList();
+                foreach (var e in temp)
                 {
-                    Id = e.Id,
-                    Name = e.Name,
-                    CategoryId = e.Category.Id,
-                    Category = _categoryService.GetCategory(e.Category.Name),
-                    LastValue = e.LastValue,
-                    Type = e.IsIncome ? BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
-                });
+                    TransactionItems.Add(new TransactionItemModel
+                    {
+                        Id = e.Id,
+                        Name = e.Name,
+                        CategoryId = e.Category.Id,
+                        Category = _categoryService.GetCategory(e.Category.Name),
+                        LastValue = e.LastValue,
+                        Type = e.IsIncome ? BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
+                    });
+                }               
             }
-            return list;
+            return TransactionItems;
         }
 
         public List<TransactionItemModel> GetIncomeItems()
@@ -136,6 +142,24 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                 });
             }
             return true;
+        }
+
+        public List<TransactionItemModel> ForceGetTransactionItems()
+        {
+            TransactionItems = new List<TransactionItemModel>();
+            foreach (var e in Context.TransactionItems)
+            {
+                TransactionItems.Add(new TransactionItemModel
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    CategoryId = e.Category.Id,
+                    Category = _categoryService.GetCategory(e.Category.Name),
+                    LastValue = e.LastValue,
+                    Type = e.IsIncome ? BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
+                });
+            }
+            return TransactionItems;
         }
     }    
 }

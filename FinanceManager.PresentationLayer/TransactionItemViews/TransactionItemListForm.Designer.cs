@@ -35,6 +35,7 @@
             this.mentésToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mentésMáskéntToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.transactionItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.itemNameTextBox = new System.Windows.Forms.TextBox();
@@ -46,7 +47,6 @@
             this.expenseFilterCheckBox = new System.Windows.Forms.CheckBox();
             this.incomeFilterCheckBox = new System.Windows.Forms.CheckBox();
             this.typeToggleSwitch = new JCS.ToggleSwitch();
-            this.transactionItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.categoryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -121,6 +121,11 @@
             this.dataGridView.Size = new System.Drawing.Size(740, 471);
             this.dataGridView.TabIndex = 1;
             this.dataGridView.TabStop = false;
+            // 
+            // transactionItemsBindingSource
+            // 
+            this.transactionItemsBindingSource.DataMember = "TransactionItems";
+            this.transactionItemsBindingSource.DataSource = this.transactionItemListViewModelBindingSource1;
             // 
             // label1
             // 
@@ -248,11 +253,6 @@
             this.typeToggleSwitch.TabIndex = 9;
             this.typeToggleSwitch.TabStop = false;
             this.typeToggleSwitch.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.typeToggleSwitch_CheckedChanged);
-            // 
-            // transactionItemsBindingSource
-            // 
-            this.transactionItemsBindingSource.DataMember = "TransactionItems";
-            this.transactionItemsBindingSource.DataSource = this.transactionItemListViewModelBindingSource1;
             // 
             // idDataGridViewTextBoxColumn
             // 

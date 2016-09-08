@@ -8,5 +8,6 @@ namespace FinanceManager.BusinessLayer.CategoryModels
         CategoryModel GetCategory(string name);
         List<CategoryModel> GetCategorys();
         CategoryEntity SaveCategory(CategoryModel category);
+        List<CategoryModel> ForceUpdateCategorys();
     }
 }

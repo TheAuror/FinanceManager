@@ -30,8 +30,9 @@ namespace FinanceManager.PresentationLayer.MainViews
                     Close();
                 }
                 WindowState = FormWindowState.Maximized;
-            }
+            }            
             _mainViewModel.LoadTransactionItems();
+            itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
             _mainViewModel.Transaction.CreatedTime = dateTimePicker.Value;
         }
 
@@ -41,11 +42,13 @@ namespace FinanceManager.PresentationLayer.MainViews
             {
                 _mainViewModel.Transaction.Type = BaseModel.TypeEnum.Income;
                 _mainViewModel.LoadIncomeItems();
+                itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
             }
             else
             {
                 _mainViewModel.Transaction.Type = BaseModel.TypeEnum.Expense;
                 _mainViewModel.LoadExpenseItems();
+                itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
             }
         }
 
@@ -56,6 +59,7 @@ namespace FinanceManager.PresentationLayer.MainViews
             valueTextBox.Text = "0";
             regularCheckBox.Checked = false;
             itemNameTextBox.Focus();
+            itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
         }
 
         private void itemNameTextBox_TextChanged(object sender, EventArgs e)

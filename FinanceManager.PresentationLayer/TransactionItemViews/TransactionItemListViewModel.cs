@@ -53,11 +53,13 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
         public void SaveTransaction()
         {
             _transactionService.SaveTransactionItem(TransactionItem);
+            _transactionService.ForceGetTransactionItems();
         }
 
         public async Task<bool> SaveTransactionItemsAsync(string filePath)
         {
             await _transactionService.SaveTransactionItemsAsync(filePath);
+            _transactionService.ForceGetTransactionItems();
             return true;
         }
     }

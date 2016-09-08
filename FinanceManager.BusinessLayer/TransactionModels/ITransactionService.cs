@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using FinanceManager.BusinessLayer.CategoryModels;
 using FinanceManager.DataLayer.Entities;
 
 namespace FinanceManager.BusinessLayer.TransactionModels
@@ -10,6 +11,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         List<TransactionModel> GetIncomes();
         List<TransactionModel> GetExpenses();
         List<TransactionItemModel> GetTransactionItems();
+        List<TransactionItemModel> ForceGetTransactionItems(); 
         List<TransactionItemModel> GetIncomeItems();
         List<TransactionItemModel> GetExpenseItems();
         TransactionEntity SaveTransaction(TransactionModel transactionModel);

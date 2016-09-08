@@ -10,33 +10,34 @@ namespace FinanceManager.BusinessLayer.CategoryModels
     public class CategoryService : BaseService, ICategoryService
     {
         public CategoryService(ISampleContext context) : base(context)
-        {
+        {            
         }
+
+        private List<CategoryModel> Categorys { get; set; }     
 
         public CategoryModel GetCategory(string name)
         {
-            if (Context.Categorys.Any(e => e.Name == name))
+            if(Categorys == null)
+                GetCategorys();
+            if (Categorys != null && Categorys.Any(e => e.Name == name))
             {
                 return GetCategorys().FirstOrDefault(e => string.Equals(name, e.Name, StringComparison.CurrentCultureIgnoreCase));
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public List<CategoryModel> GetCategorys()
         {
-            return Context.Categorys.Select(e => new CategoryModel
+            return Categorys ?? (Categorys = Context.Categorys.Select(e => new CategoryModel
             {
                 Id = e.Id,
                 Name = e.Name
-            }).ToList();
+            }).ToList());
         }
 
         public CategoryEntity SaveCategory(CategoryModel category)
         {
-            if (category == null)
+            if (string.IsNullOrEmpty(category.Name))
             {
                 return Context.Categorys.First(e => e.Name == "Default");
             }
@@ -50,7 +51,17 @@ namespace FinanceManager.BusinessLayer.CategoryModels
             };
             Context.Categorys.Add(entity);
             Context.SaveChanges();
+            ForceUpdateCategorys();
             return entity;
+        }
+
+        public List<CategoryModel> ForceUpdateCategorys()
+        {
+            return (Categorys = Context.Categorys.Select(e => new CategoryModel
+            {
+                Id = e.Id,
+                Name = e.Name
+            }).ToList());
         }
     }
 }

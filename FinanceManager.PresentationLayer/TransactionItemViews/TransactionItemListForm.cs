@@ -94,6 +94,7 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
                     await _itemListViewModel.SaveTransactionItemsAsync(openFileDialog.FileName);                       
                 }
             }
+            _itemListViewModel.LoadTransactionItems();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace FinanceManager.PresentationLayer.MainViews
         public TransactionModel Transaction { get; set; }
         public BindingList<TransactionItemModel> IncomeItems { get; }
         public BindingList<TransactionItemModel> ExpenseItems { get; }
-        public AutoCompleteStringCollection ItemNames { get; }
+        public AutoCompleteStringCollection ItemNames { get; set; }
 
         public void LoadTransactionItems()
         {
@@ -55,22 +55,26 @@ namespace FinanceManager.PresentationLayer.MainViews
         {
             IncomeItems.Clear();
             ItemNames.Clear();
-            foreach (var item in _allItems.Where(e => e.Name.Contains(Transaction.Item.Name ?? "")))
+            var itemNamesTemp = new AutoCompleteStringCollection();
+            foreach (var item in _allItems.Where(e => e.Name.Contains(Transaction.Item.Name ?? "") && e.Type == BaseModel.TypeEnum.Income))
             {
                 IncomeItems.Add(item);
-                ItemNames.Add(item.Name);
+                itemNamesTemp.Add(item.Name);
             }
+            ItemNames = itemNamesTemp;
         }
 
         public void LoadExpenseItems()
         {
             ExpenseItems.Clear();
             ItemNames.Clear();
-            foreach (var item in _allItems.Where(e => e.Name.Contains(Transaction.Item.Name ?? "")))
+            var itemNamesTemp = new AutoCompleteStringCollection();
+            foreach (var item in _allItems.Where(e => e.Name.Contains(Transaction.Item.Name ?? "") && e.Type == BaseModel.TypeEnum.Expense))
             {
                 ExpenseItems.Add(item);
-                ItemNames.Add(item.Name);
+                itemNamesTemp.Add(item.Name);
             }
+            ItemNames = itemNamesTemp;
         }
 
         public void SaveTransaction()
