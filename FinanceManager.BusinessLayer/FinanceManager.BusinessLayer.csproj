@@ -66,6 +66,7 @@
     <Compile Include="Common\PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransactionModels\ITransactionService.cs" />
+    <Compile Include="TransactionModels\TransactionClassMap.cs" />
     <Compile Include="TransactionModels\TransactionItemClassMap.cs" />
     <Compile Include="TransactionModels\TransactionItemModel.cs" />
     <Compile Include="TransactionModels\TransactionModel.cs" />

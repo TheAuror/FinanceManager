@@ -35,7 +35,13 @@
             this.mentésToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mentésMáskéntToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categoryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.transactionItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.transactionItemListViewModelBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.itemNameTextBox = new System.Windows.Forms.TextBox();
@@ -47,12 +53,6 @@
             this.expenseFilterCheckBox = new System.Windows.Forms.CheckBox();
             this.incomeFilterCheckBox = new System.Windows.Forms.CheckBox();
             this.typeToggleSwitch = new JCS.ToggleSwitch();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.categoryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lastValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.transactionItemListViewModelBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.transactionItemsBindingSource)).BeginInit();
@@ -122,10 +122,49 @@
             this.dataGridView.TabIndex = 1;
             this.dataGridView.TabStop = false;
             // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Tétel név";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // categoryDataGridViewTextBoxColumn
+            // 
+            this.categoryDataGridViewTextBoxColumn.DataPropertyName = "CategoryName";
+            this.categoryDataGridViewTextBoxColumn.HeaderText = "Kategória";
+            this.categoryDataGridViewTextBoxColumn.Name = "categoryDataGridViewTextBoxColumn";
+            this.categoryDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // lastValueDataGridViewTextBoxColumn
+            // 
+            this.lastValueDataGridViewTextBoxColumn.DataPropertyName = "LastValue";
+            this.lastValueDataGridViewTextBoxColumn.HeaderText = "Utoljára megadott érték";
+            this.lastValueDataGridViewTextBoxColumn.Name = "lastValueDataGridViewTextBoxColumn";
+            this.lastValueDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // typeDataGridViewTextBoxColumn
+            // 
+            this.typeDataGridViewTextBoxColumn.DataPropertyName = "TypeString";
+            this.typeDataGridViewTextBoxColumn.HeaderText = "Típus";
+            this.typeDataGridViewTextBoxColumn.Name = "typeDataGridViewTextBoxColumn";
+            this.typeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // transactionItemsBindingSource
             // 
             this.transactionItemsBindingSource.DataMember = "TransactionItems";
             this.transactionItemsBindingSource.DataSource = this.transactionItemListViewModelBindingSource1;
+            // 
+            // transactionItemListViewModelBindingSource1
+            // 
+            this.transactionItemListViewModelBindingSource1.DataSource = typeof(FinanceManager.PresentationLayer.TransactionItemViews.TransactionItemListViewModel);
             // 
             // label1
             // 
@@ -254,45 +293,6 @@
             this.typeToggleSwitch.TabStop = false;
             this.typeToggleSwitch.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.typeToggleSwitch_CheckedChanged);
             // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Tétel név";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // categoryDataGridViewTextBoxColumn
-            // 
-            this.categoryDataGridViewTextBoxColumn.DataPropertyName = "CategoryName";
-            this.categoryDataGridViewTextBoxColumn.HeaderText = "Kategória";
-            this.categoryDataGridViewTextBoxColumn.Name = "categoryDataGridViewTextBoxColumn";
-            this.categoryDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // lastValueDataGridViewTextBoxColumn
-            // 
-            this.lastValueDataGridViewTextBoxColumn.DataPropertyName = "LastValue";
-            this.lastValueDataGridViewTextBoxColumn.HeaderText = "Utoljára megadott érték";
-            this.lastValueDataGridViewTextBoxColumn.Name = "lastValueDataGridViewTextBoxColumn";
-            this.lastValueDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // typeDataGridViewTextBoxColumn
-            // 
-            this.typeDataGridViewTextBoxColumn.DataPropertyName = "TypeString";
-            this.typeDataGridViewTextBoxColumn.HeaderText = "Típus";
-            this.typeDataGridViewTextBoxColumn.Name = "typeDataGridViewTextBoxColumn";
-            this.typeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // transactionItemListViewModelBindingSource1
-            // 
-            this.transactionItemListViewModelBindingSource1.DataSource = typeof(FinanceManager.PresentationLayer.TransactionItemViews.TransactionItemListViewModel);
-            // 
             // TransactionItemListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,7 +313,7 @@
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "TransactionItemListForm";
-            this.Text = "Pénzügyi tételek";
+            this.Text = "Tranzakció tételek";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TransactionItemListForm_FormClosing);
             this.Load += new System.EventHandler(this.TransactionItemListForm_Load);
             this.menuStrip.ResumeLayout(false);

@@ -17,5 +17,6 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         TransactionEntity SaveTransaction(TransactionModel transactionModel);
         TransactionItemEntity SaveTransactionItem(TransactionItemModel transactionItemModel);
         Task<bool> SaveTransactionItemsAsync(string filePath);
+        Task<bool> SaveTransactionsAsync(string filePath);
     }
 }

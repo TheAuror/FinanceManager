@@ -11,7 +11,7 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
     public class TransactionItemListViewModel
     {
         private readonly ITransactionService _transactionService;
-        private List<TransactionItemModel> _allItems; 
+        private List<TransactionItemModel> _allItems;
 
         public TransactionItemListViewModel(ITransactionService transactionService)
         {

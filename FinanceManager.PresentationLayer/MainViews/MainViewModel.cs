@@ -81,10 +81,9 @@ namespace FinanceManager.PresentationLayer.MainViews
         {
             Transaction.UserId = _userService.LoggedInUser.Id;
             Transaction.User = _userService.LoggedInUser;
-            Transaction.Item.Type = Transaction.Type;
-            _transactionService.SaveTransactionItem(Transaction.Item);
-            Transaction.Item = _transactionService.GetTransactionItems().FirstOrDefault(e => e.Name == Transaction.Item.Name);
-            Transaction.ItemId = Transaction.Item?.Id;
+            //Transaction.Item.Type = Transaction.Type;
+            //Transaction.Item.LastValue = Transaction.Value;
+            //_transactionService.SaveTransactionItem(Transaction.Item);
             _transactionService.SaveTransaction(Transaction);
             LoadTransactionItems();
         }

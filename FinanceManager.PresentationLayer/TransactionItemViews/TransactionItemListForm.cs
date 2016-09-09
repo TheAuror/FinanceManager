@@ -21,7 +21,7 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
             Hide();
             e.Cancel = true;
         }
-
+        
         private void itemNameTextBox_TextChanged(object sender, EventArgs e)
         {
             _itemListViewModel.TransactionItem.Name = itemNameTextBox.Text;

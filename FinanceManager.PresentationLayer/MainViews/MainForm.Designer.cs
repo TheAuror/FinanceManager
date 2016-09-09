@@ -90,6 +90,7 @@
             this.transactionListOpenButton.TabStop = false;
             this.transactionListOpenButton.Text = "Bevételek Kiadások";
             this.transactionListOpenButton.UseVisualStyleBackColor = true;
+            this.transactionListOpenButton.Click += new System.EventHandler(this.transactionListOpenButton_Click);
             // 
             // sidePanel
             // 
@@ -237,7 +238,7 @@
             this.Controls.Add(this.menuPanel);
             this.IsMdiContainer = true;
             this.Name = "MainForm";
-            this.Text = "FinanceManager";
+            this.Text = "Finance Manager";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuPanel.ResumeLayout(false);
             this.sidePanel.ResumeLayout(false);

@@ -28,17 +28,23 @@ namespace FinanceManager.BusinessLayer.TransactionModels
 
         public List<TransactionModel> GetTransactions()
         {
-            return Context.Transactions.Select(e => new TransactionModel
+            List<TransactionEntity> entities = Context.Transactions.ToList();
+            List<TransactionModel> models = new List<TransactionModel>();
+            foreach (var entity in entities)
             {
-                Id = e.Id,
-                UserId = e.User.Id,
-                User = _userService.GetUser(e.User.Id),
-                ItemId = e.TransactionItem.Id,
-                Item = GetTransactionItems().FirstOrDefault(f => f.Id == e.TransactionItem.Id),
-                Value = e.Value,
-                CreatedTime = e.CreatedTime,
-                Type = e.IsIncome?BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
-            }).ToList();
+                models.Add(new TransactionModel
+                {
+                    Id = entity.Id,
+                    UserId = entity.User.Id,
+                    User = _userService.GetUser(entity.User.Id),
+                    ItemId = entity.TransactionItem.Id,
+                    Item = GetTransactionItems().FirstOrDefault(f => f.Id == entity.TransactionItem.Id),
+                    Value = entity.Value,
+                    CreatedTime = entity.CreatedTime,
+                    Type = entity.IsIncome ? BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
+                });
+            }
+            return models;
         }
 
         public List<TransactionModel> GetIncomes()
@@ -85,11 +91,18 @@ namespace FinanceManager.BusinessLayer.TransactionModels
 
         public TransactionEntity SaveTransaction(TransactionModel transactionModel)
         {
+            transactionModel.Item.LastValue = transactionModel.Value;
+            transactionModel.Item.Type = transactionModel.Type;
             TransactionEntity entity = new TransactionEntity
             {
                 TransactionItem = SaveTransactionItem(transactionModel.Item),
                 CreatedTime = transactionModel.CreatedTime,
-                User = Context.Users.FirstOrDefault(e => e.UserName == transactionModel.User.UserName),
+                User = new UserEntity
+                {
+                    Id = _userService.LoggedInUser.Id ?? 0,
+                    UserName = _userService.LoggedInUser.UserName
+                },
+                UserId = _userService.LoggedInUser.Id,
                 IsIncome = transactionModel.Type == BaseModel.TypeEnum.Income,
                 Value = transactionModel.Value
             };
@@ -102,11 +115,22 @@ namespace FinanceManager.BusinessLayer.TransactionModels
 
         public TransactionItemEntity SaveTransactionItem(TransactionItemModel transactionItemModel)
         {
-            if (Context.TransactionItems.Any(e => e.Name == transactionItemModel.Name))
+            var entity = Context.TransactionItems.FirstOrDefault(e => e.Name == transactionItemModel.Name);
+            if (entity != null)
             {
+                if (entity.LastValue != transactionItemModel.LastValue)
+                {
+                    entity.LastValue = transactionItemModel.LastValue;
+                    Context.SaveChanges();
+                }
+                if (entity.Category.Name != transactionItemModel.CategoryName)
+                {
+                    entity.Category = _categoryService.SaveCategory(transactionItemModel.Category);
+                    Context.SaveChanges();
+                }
                 return Context.TransactionItems.FirstOrDefault(e => e.Name == transactionItemModel.Name);
             }
-            TransactionItemEntity entity = new TransactionItemEntity
+            entity = new TransactionItemEntity
             {
                 Name = transactionItemModel.Name,
                 Category = _categoryService.SaveCategory(transactionItemModel.Category),
@@ -121,7 +145,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
 
         public async Task<bool> SaveTransactionItemsAsync(string filePath)
         {
-            List<TransactionItemModel> students = null;
+            List<TransactionItemModel> items = null;
             await Task.Run(() =>
             {
                 using (StreamReader reader = (new StreamReader(filePath, Encoding.GetEncoding("ISO-8859-2"))))
@@ -130,10 +154,10 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                     csv.Configuration.Delimiter = ";";
                     csv.Configuration.HasHeaderRecord = true;
                     csv.Configuration.RegisterClassMap<TransactionItemClassMap>();
-                    students = new List<TransactionItemModel>(csv.GetRecords<TransactionItemModel>().ToList());
+                    items = new List<TransactionItemModel>(csv.GetRecords<TransactionItemModel>().ToList());
                 }
             });
-            foreach (var item in students)
+            foreach (var item in items)
             {
                 var itemTemp = item;
                 await Task.Run(() =>
@@ -160,6 +184,31 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                 });
             }
             return TransactionItems;
+        }
+
+        public async Task<bool> SaveTransactionsAsync(string filePath)
+        {
+            List<TransactionModel> transactions = null;
+            
+                using (StreamReader reader = (new StreamReader(filePath, Encoding.GetEncoding("ISO-8859-2"))))
+                {
+                    var csv = new CsvReader(reader);
+                    csv.Configuration.Delimiter = ";";
+                    csv.Configuration.HasHeaderRecord = true;
+                    csv.Configuration.RegisterClassMap<TransactionClassMap>();
+                    transactions = new List<TransactionModel>(csv.GetRecords<TransactionModel>().ToList());
+                }
+            ;
+            foreach (var transaction in transactions)
+            {
+                var transactionTemp = transaction;
+                transactionTemp.User = _userService.LoggedInUser;
+                await Task.Run(() =>
+                {
+                    SaveTransaction(transactionTemp);
+                });
+            }
+            return true;
         }
     }    
 }

@@ -5,6 +5,7 @@ using FinanceManager.PresentationLayer.TransactionItemViews;
 using FinanceManager.PresentationLayer.UserViews;
 using System;
 using System.Linq;
+using FinanceManager.PresentationLayer.TransactionViews;
 
 namespace FinanceManager.PresentationLayer.MainViews
 {
@@ -59,6 +60,11 @@ namespace FinanceManager.PresentationLayer.MainViews
             regularCheckBox.Checked = false;
             itemNameTextBox.Focus();
             itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
+            using (var lifetimeScope = Program.Container.BeginLifetimeScope())
+            {
+                var a = lifetimeScope.Resolve<TransactionListViewModel>();
+                a.LoadTransactions();
+            }
         }
 
         private void itemNameTextBox_TextChanged(object sender, EventArgs e)
@@ -114,6 +120,19 @@ namespace FinanceManager.PresentationLayer.MainViews
                     if (transactionItemModel != null)
                         valueTextBox.Text = transactionItemModel.LastValue?.ToString() ?? "0";
                 }
+            }
+        }
+
+        private void transactionListOpenButton_Click(object sender, EventArgs e)
+        {
+            using (var lifetimeScope = Program.Container.BeginLifetimeScope())
+            {
+                var form = lifetimeScope.Resolve<TransactionListForm>();
+
+                form.MdiParent = this;
+                form.Dock = DockStyle.Left;
+                form.Show();
+                form.WindowState = FormWindowState.Maximized;
             }
         }
     }
