@@ -5,7 +5,6 @@ using FinanceManager.PresentationLayer.TransactionItemViews;
 using FinanceManager.PresentationLayer.UserViews;
 using System;
 using System.Linq;
-using FinanceManager.BusinessLayer.TransactionModels;
 
 namespace FinanceManager.PresentationLayer.MainViews
 {
