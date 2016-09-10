@@ -1,22 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using FinanceManager.BusinessLayer.Common;
 using FinanceManager.BusinessLayer.TransactionModels;
 
 namespace FinanceManager.PresentationLayer.StatisticViews
 {
-    public class RowModel
+    public class RowModel : BaseModel
     {
-        public string RowName;
-        public int Num1;
-        public int Num2;
+        public string RowName { get; set; }
+        public int Num1 { get; set; }
+        public int Num2 { get; set; }
+        public int Dif => Num1 - Num2;
     }
     public class StatisticsViewModel
     {
         private readonly ITransactionService _transactionService;
-        public BindingList<RowModel> TopList = new BindingList<RowModel>();
-        public BindingList<RowModel> BottomList;
+        private List<TransactionModel> _allTransaction; 
 
         public StatisticsViewModel(ITransactionService transactionService)
         {
@@ -25,37 +27,43 @@ namespace FinanceManager.PresentationLayer.StatisticViews
             BottomList = new BindingList<RowModel>();
         }
 
+        public BindingList<RowModel> TopList { get; set; }
+        public BindingList<RowModel> BottomList { get; set; }
+
         public void UpdateTopList(bool isMontly)
         {
-            var transactions = _transactionService.GetTransactions();
+            _allTransaction = _transactionService.GetTransactions();
             TopList.Clear();
+            string sumBy = isMontly ? "MMMM" : "yyyy";
             if (isMontly)
             {
-                foreach (var transaction in transactions)
+                foreach (var month in DateTimeFormatInfo.CurrentInfo?.MonthNames)
                 {
-                    if (transaction.CreatedTime.ToString("yyyy") != DateTime.Now.ToString("yyyy"))
-                    {
-                        continue;
-                    }
-                    if (TopList.All(e => e.RowName != transaction.CreatedTime.ToString("MMMM")))
-                    {
-                        TopList.Add(new RowModel
-                        {
-                            RowName = transaction.CreatedTime.ToString("MMMM"),
-                            Num1 = 0,
-                            Num2 = 0
-                        });
-                    }
-                    if (transaction.Type == BaseModel.TypeEnum.Income)
-                    {
-                        var temp = TopList.FirstOrDefault(e => e.RowName == transaction.CreatedTime.ToString("MMMM"));
-                        if (temp != null) temp.Num1 += transaction.Value;
-                    }
-                    if (transaction.Type == BaseModel.TypeEnum.Expense)
-                    {
-                        var temp = TopList.FirstOrDefault(e => e.RowName == transaction.CreatedTime.ToString("MMMM"));
-                        if (temp != null) temp.Num2 -= transaction.Value;
-                    }
+                    if(!string.IsNullOrEmpty(month))
+                        TopList.Add(new RowModel{ RowName = month });
+                }                
+            }
+            else
+            {
+                int thisYear = int.Parse(DateTime.Now.ToString("yyyy"));
+                for (int i = thisYear; i > thisYear - 12; i--)
+                {
+                    TopList.Add(new RowModel{ RowName = i.ToString() });
+                }
+            }
+            foreach (var transaction in _allTransaction)
+            {
+                if (TopList.All(e => e.RowName != transaction.CreatedTime.ToString(sumBy)))
+                {
+                    TopList.Add(new RowModel{ RowName = transaction.CreatedTime.ToString(sumBy) });
+                }
+                if (transaction.Type == BaseModel.TypeEnum.Income)
+                {
+                    TopList.First(e => e.RowName == transaction.CreatedTime.ToString(sumBy)).Num1 += transaction.Value;
+                }
+                if (transaction.Type == BaseModel.TypeEnum.Expense)
+                {
+                    TopList.First(e => e.RowName == transaction.CreatedTime.ToString(sumBy)).Num2 += transaction.Value;
                 }
             }
         }

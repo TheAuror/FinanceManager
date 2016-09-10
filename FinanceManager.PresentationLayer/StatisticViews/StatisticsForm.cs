@@ -13,8 +13,24 @@ namespace FinanceManager.PresentationLayer.StatisticViews
 
         private void StatisticsForm_Load(object sender, System.EventArgs e)
         {
-            statisticsViewModelBindingSource.DataMember = "TopList";
-            _viewModel.UpdateTopList(true);
+            _viewModel.UpdateTopList(!toggleSwitch.Checked);
+            topBindingSource.DataSource = _viewModel.TopList;
+        }
+
+        private void StatisticsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+        }
+
+        private void refreshButton_Click(object sender, System.EventArgs e)
+        {
+            _viewModel.UpdateTopList(!toggleSwitch.Checked);
+        }
+
+        private void toggleSwitch_CheckedChanged(object sender, System.EventArgs e)
+        {
+            _viewModel.UpdateTopList(!toggleSwitch.Checked);
         }
     }
 }
