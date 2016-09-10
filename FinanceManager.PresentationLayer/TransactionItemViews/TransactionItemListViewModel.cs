@@ -62,5 +62,10 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
             _transactionService.ForceGetTransactionItems();
             return true;
         }
+
+        public void SaveDataToFile(string filePath)
+        {
+            _transactionService.SaveTransactionItemsToFile(filePath);
+        }
     }
 }

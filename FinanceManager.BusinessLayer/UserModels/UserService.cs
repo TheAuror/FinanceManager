@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FinanceManager.BusinessLayer.Common;
 using FinanceManager.DataLayer;
@@ -9,26 +10,33 @@ namespace FinanceManager.BusinessLayer.UserModels
     public class UserService : BaseService, IUserService
     {
         public UserModel LoggedInUser { get; set; }
+        public List<UserModel> Users { get; set; } 
 
         public UserService(ISampleContext context) : base(context)
-        {
+        {           
         }
 
         public UserModel GetUser(int id)
         {
-            if (Context.Users.Any(e => e.Id == id))
+            if (Users == null)
             {
-                UserModel model = new UserModel();
-                UserEntity entity = Context.Users.FirstOrDefault(e => e.Id == id);
-                model.Id = entity?.Id;
-                model.UserName = entity?.UserName;
-                model.Password = entity?.Password;
-                return model;
+                Users = new List<UserModel>();
+                foreach (var user in Context.Users)
+                {
+                    Users.Add(new UserModel
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        Password = user.Password
+                    });
+                }
             }
-            else
+            if (Users.Any(e => e.Id == id))
             {
-                return null;
+                UserModel user = Users.FirstOrDefault(e => e.Id == id);
+                return user;
             }
+            return null;
         }
 
         public UserModel GetUser(string username)

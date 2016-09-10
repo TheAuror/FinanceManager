@@ -5,6 +5,7 @@ using FinanceManager.PresentationLayer.TransactionItemViews;
 using FinanceManager.PresentationLayer.UserViews;
 using System;
 using System.Linq;
+using FinanceManager.PresentationLayer.StatisticViews;
 using FinanceManager.PresentationLayer.TransactionViews;
 
 namespace FinanceManager.PresentationLayer.MainViews
@@ -128,6 +129,19 @@ namespace FinanceManager.PresentationLayer.MainViews
             using (var lifetimeScope = Program.Container.BeginLifetimeScope())
             {
                 var form = lifetimeScope.Resolve<TransactionListForm>();
+
+                form.MdiParent = this;
+                form.Dock = DockStyle.Left;
+                form.Show();
+                form.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void statisticsOpenButton_Click(object sender, EventArgs e)
+        {
+            using (var lifetimeScope = Program.Container.BeginLifetimeScope())
+            {
+                var form = lifetimeScope.Resolve<StatisticsForm>();
 
                 form.MdiParent = this;
                 form.Dock = DockStyle.Left;

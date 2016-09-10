@@ -69,6 +69,7 @@
             this.statisticsOpenButton.TabStop = false;
             this.statisticsOpenButton.Text = "Statisztikák";
             this.statisticsOpenButton.UseVisualStyleBackColor = true;
+            this.statisticsOpenButton.Click += new System.EventHandler(this.statisticsOpenButton_Click);
             // 
             // itemListOpenButton
             // 

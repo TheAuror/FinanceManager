@@ -5,6 +5,7 @@ using FinanceManager.BusinessLayer.CategoryModels;
 using FinanceManager.BusinessLayer.TransactionModels;
 using FinanceManager.BusinessLayer.UserModels;
 using FinanceManager.PresentationLayer.MainViews;
+using FinanceManager.PresentationLayer.StatisticViews;
 using FinanceManager.PresentationLayer.TransactionItemViews;
 using FinanceManager.PresentationLayer.TransactionViews;
 using FinanceManager.PresentationLayer.UserViews;
@@ -28,6 +29,8 @@ namespace FinanceManager.PresentationLayer
             builder.RegisterType<TransactionItemListForm>().AsSelf().SingleInstance();
             builder.RegisterType<TransactionListViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<TransactionListForm>().AsSelf().SingleInstance();
+            builder.RegisterType<StatisticsViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<StatisticsForm>().AsSelf().SingleInstance();
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<MainForm>().AsSelf().SingleInstance();
 

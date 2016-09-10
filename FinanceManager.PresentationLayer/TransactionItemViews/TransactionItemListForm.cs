@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using Autofac;
 using FinanceManager.BusinessLayer.Common;
@@ -9,6 +10,7 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
     public partial class TransactionItemListForm : Form
     {
         private readonly TransactionItemListViewModel _itemListViewModel;
+        private FileInfo currentFile;
         public TransactionItemListForm(TransactionItemListViewModel itemListViewModel)
         {
             _itemListViewModel = itemListViewModel;
@@ -93,8 +95,35 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
                 {
                     await _itemListViewModel.SaveTransactionItemsAsync(openFileDialog.FileName);                       
                 }
+                currentFile = new FileInfo(openFileDialog.FileName);
             }
             _itemListViewModel.LoadTransactionItems();
+        }
+
+        private void mentésMáskéntToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.OverwritePrompt = true;
+                saveFileDialog.Filter = "Csv fájlok (.csv)|*.csv|Minden fájl|*.*";
+                saveFileDialog.DefaultExt = ".csv";
+                saveFileDialog.AddExtension = true;
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    _itemListViewModel.SaveDataToFile(saveFileDialog.FileName);
+                    currentFile = new FileInfo(saveFileDialog.FileName);
+                }
+            }
+        }
+
+        private void mentésToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentFile == null)
+            {
+                mentésMáskéntToolStripMenuItem_Click(sender, e);
+                return;
+            }
+            _itemListViewModel.SaveDataToFile(currentFile.FullName);
         }
     }
 }

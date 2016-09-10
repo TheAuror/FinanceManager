@@ -82,12 +82,14 @@
             this.mentésToolStripMenuItem.Name = "mentésToolStripMenuItem";
             this.mentésToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.mentésToolStripMenuItem.Text = "Mentés";
+            this.mentésToolStripMenuItem.Click += new System.EventHandler(this.mentésToolStripMenuItem_Click);
             // 
             // mentésMáskéntToolStripMenuItem
             // 
             this.mentésMáskéntToolStripMenuItem.Name = "mentésMáskéntToolStripMenuItem";
             this.mentésMáskéntToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.mentésMáskéntToolStripMenuItem.Text = "Mentés másként";
+            this.mentésMáskéntToolStripMenuItem.Click += new System.EventHandler(this.mentésMáskéntToolStripMenuItem_Click);
             // 
             // dataGridView
             // 

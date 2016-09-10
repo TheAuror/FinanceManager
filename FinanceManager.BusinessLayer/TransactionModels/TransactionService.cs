@@ -97,11 +97,8 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             {
                 TransactionItem = SaveTransactionItem(transactionModel.Item),
                 CreatedTime = transactionModel.CreatedTime,
-                User = new UserEntity
-                {
-                    Id = _userService.LoggedInUser.Id ?? 0,
-                    UserName = _userService.LoggedInUser.UserName
-                },
+                User = Context.Users.First(e => e.Id == _userService.LoggedInUser.Id) ??
+                       Context.Users.First(e => e.UserName == _userService.LoggedInUser.UserName),
                 UserId = _userService.LoggedInUser.Id,
                 IsIncome = transactionModel.Type == BaseModel.TypeEnum.Income,
                 Value = transactionModel.Value
@@ -209,6 +206,30 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                 });
             }
             return true;
+        }
+
+        public void SaveTransactionItemsToFile(string filePath)
+        {
+            using (StreamWriter sw = new StreamWriter(filePath, false, Encoding.UTF8))
+            {
+                CsvWriter csv = new CsvWriter(sw);
+                csv.Configuration.RegisterClassMap<TransactionItemClassMap>();
+                csv.Configuration.Delimiter = ";";
+                csv.Configuration.QuoteAllFields = true;
+                csv.WriteRecords(GetTransactionItems());
+            }
+        }
+
+        public void SaveTransactionsToFile(string filePath)
+        {
+            using (StreamWriter sw = new StreamWriter(filePath, false, Encoding.UTF8))
+            {
+                CsvWriter csv = new CsvWriter(sw);
+                csv.Configuration.RegisterClassMap<TransactionClassMap>();
+                csv.Configuration.Delimiter = ";";
+                csv.Configuration.QuoteAllFields = true;
+                csv.WriteRecords(GetTransactions());
+            }
         }
     }    
 }

@@ -39,5 +39,10 @@ namespace FinanceManager.PresentationLayer.TransactionViews
         {
             return await _transactionService.SaveTransactionsAsync(filePath);
         }
+
+        public void SaveDataToFile(string filePath)
+        {
+            _transactionService.SaveTransactionsToFile(filePath);
+        }
     }
 }
