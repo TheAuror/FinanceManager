@@ -82,6 +82,7 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
         {
             _itemListViewModel.LoadTransactionItems();
             dataGridView.DataSource = _itemListViewModel.TransactionItems;
+            dataGridView.Columns[3].DefaultCellStyle.Format = "C";
         }
 
         private async void beolvasásToolStripMenuItem_Click(object sender, EventArgs e)

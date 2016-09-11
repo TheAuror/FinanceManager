@@ -34,23 +34,16 @@ namespace FinanceManager.PresentationLayer.MainViews
             }            
             _mainViewModel.LoadTransactionItems();
             itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
-            _mainViewModel.Transaction.CreatedTime = dateTimePicker.Value;
+            _mainViewModel.Transaction.CreatedTime = dateTimePicker.Value;            
         }
 
         private void toggleSwitch_CheckedChanged(object sender, EventArgs e)
         {
-            if (toggleSwitch.Checked)
-            {
-                _mainViewModel.Transaction.Type = BaseModel.TypeEnum.Income;
-                _mainViewModel.LoadIncomeItems();
-                itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
-            }
-            else
-            {
-                _mainViewModel.Transaction.Type = BaseModel.TypeEnum.Expense;
-                _mainViewModel.LoadExpenseItems();
-                itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
-            }
+            _mainViewModel.Transaction.Type = toggleSwitch.Checked
+                ? BaseModel.TypeEnum.Income
+                : BaseModel.TypeEnum.Expense;
+            _mainViewModel.LoadTransactionItems();
+            itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
         }
 
         private void saveTransactionButton_Click(object sender, EventArgs e)
@@ -60,6 +53,7 @@ namespace FinanceManager.PresentationLayer.MainViews
             valueTextBox.Text = "0";
             regularCheckBox.Checked = false;
             itemNameTextBox.Focus();
+            _mainViewModel.LoadTransactionItems();
             itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
             using (var lifetimeScope = Program.Container.BeginLifetimeScope())
             {
@@ -109,18 +103,11 @@ namespace FinanceManager.PresentationLayer.MainViews
         {
             if (f.KeyData == Keys.Enter)
             {
-                if (toggleSwitch.Checked)
-                {
-                    var transactionItemModel = _mainViewModel.IncomeItems.FirstOrDefault(e => e.Name == itemNameTextBox.Text);
-                    if (transactionItemModel != null)
-                        valueTextBox.Text = transactionItemModel.LastValue?.ToString() ?? "0";
-                }
-                if (!toggleSwitch.Checked)
-                {
-                    var transactionItemModel = _mainViewModel.ExpenseItems.FirstOrDefault(e => e.Name == itemNameTextBox.Text);
-                    if (transactionItemModel != null)
-                        valueTextBox.Text = transactionItemModel.LastValue?.ToString() ?? "0";
-                }
+                var transactionItemModel = toggleSwitch.Checked ? 
+                    _mainViewModel.IncomeItems.FirstOrDefault(e => e.Name.ToLower() == itemNameTextBox.Text.ToLower()) :
+                    _mainViewModel.ExpenseItems.FirstOrDefault(e => e.Name.ToLower() == itemNameTextBox.Text.ToLower());
+                if (transactionItemModel != null)
+                    valueTextBox.Text = transactionItemModel.LastValue?.ToString() ?? "0";
             }
         }
 

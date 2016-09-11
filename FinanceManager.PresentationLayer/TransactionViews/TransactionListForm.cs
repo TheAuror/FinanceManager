@@ -13,11 +13,6 @@ namespace FinanceManager.PresentationLayer.TransactionViews
             InitializeComponent();
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
         private void TransactionListForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
@@ -35,6 +30,7 @@ namespace FinanceManager.PresentationLayer.TransactionViews
         {
             _viewModel.LoadTransactions();
             dataGridView.DataSource = _viewModel.Transactions;
+            dataGridView.Columns[3].DefaultCellStyle.Format = "C";
         }
 
         private async void beolvasásToolStripMenuItem_Click(object sender, System.EventArgs e)

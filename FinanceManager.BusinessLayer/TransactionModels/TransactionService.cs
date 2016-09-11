@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             _userService = userService;
         }
 
-        List<TransactionItemModel> TransactionItems { get; set; } 
+        List<TransactionItemModel> TransactionItems { get; set; }
 
         public List<TransactionModel> GetTransactions()
         {
