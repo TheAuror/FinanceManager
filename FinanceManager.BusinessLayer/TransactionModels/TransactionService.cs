@@ -82,6 +82,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         
         //SaveTransaction()
         //SaveTransactionItem()
+        //SaveTransactionItemFromFile()
         #region SaveToDB
         public TransactionEntity SaveTransaction(TransactionModel transactionModel)
         {
@@ -135,7 +136,31 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             return entity;
         }
 
-
+        public TransactionItemEntity SaveTransactionItemFromFile(TransactionItemModel transactionItemModel)
+        {
+            bool isNew = false;
+            var entity = Context.TransactionItems.FirstOrDefault(e => e.Id == transactionItemModel.Id);
+            if (entity == null)
+            {
+                entity = new TransactionItemEntity();
+                isNew = true;
+            }
+            if(!isNew && entity.Name != transactionItemModel.Name ||
+                entity.IsIncome != (transactionItemModel.Type == BaseModel.TypeEnum.Income) ||
+                entity.LastValue != transactionItemModel.LastValue ||
+               (entity.Category.Name != transactionItemModel.CategoryName && 
+               !string.IsNullOrWhiteSpace(transactionItemModel.CategoryName)))
+            {
+                entity.Name = transactionItemModel.Name;
+                entity.Category = _categoryService.SaveCategory(transactionItemModel.Category);
+                entity.IsIncome = transactionItemModel.Type == BaseModel.TypeEnum.Income;
+                entity.LastValue = transactionItemModel.LastValue;
+                entity.CategoryId = entity.Category.Id;
+            }
+            if(isNew) Context.TransactionItems.Add(entity);
+            Context.SaveChanges();
+            return entity;
+        }
         #endregion
 
         //SaveTransactionsAsync()
@@ -183,7 +208,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                 var itemTemp = item;
                 await Task.Run(() =>
                 {
-                    SaveTransactionItem(itemTemp);
+                    SaveTransactionItemFromFile(itemTemp);
                 });
             }
             return true;

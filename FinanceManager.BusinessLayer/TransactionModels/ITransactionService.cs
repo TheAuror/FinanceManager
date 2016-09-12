@@ -12,6 +12,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         List<TransactionItemModel> ForceGetTransactionItems(); 
         TransactionEntity SaveTransaction(TransactionModel transactionModel);
         TransactionItemEntity SaveTransactionItem(TransactionItemModel transactionItemModel);
+        TransactionItemEntity SaveTransactionItemFromFile(TransactionItemModel transactionItemModel);
         Task<bool> SaveTransactionItemsAsync(string filePath);
         Task<bool> SaveTransactionsAsync(string filePath);
         void SaveTransactionItemsToFile(string filePath);
