@@ -64,6 +64,11 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
 
         private void itemSaveButtom_Click(object sender, EventArgs e)
         {
+            if (itemNameTextBox.Text == "")
+            {
+                MessageBox.Show("Üres mező", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }    
             _itemListViewModel.SaveTransaction();
             itemNameTextBox.Text = "";
             categoryTextBox.Text = "";

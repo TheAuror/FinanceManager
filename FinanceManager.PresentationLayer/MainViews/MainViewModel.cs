@@ -40,7 +40,7 @@ namespace FinanceManager.PresentationLayer.MainViews
 
         public void LoadTransactionItems()
         {
-            _allItems = _transactionService.GetTransactionItems();
+            _allItems = _transactionService.ForceGetTransactionItems();
             if (Transaction.Type == BaseModel.TypeEnum.Income)
             {
                 LoadIncomeItems();

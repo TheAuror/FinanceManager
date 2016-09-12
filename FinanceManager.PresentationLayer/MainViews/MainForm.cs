@@ -17,7 +17,6 @@ namespace FinanceManager.PresentationLayer.MainViews
         {
             _mainViewModel = mainViewModel;
             InitializeComponent();
-            itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;
         }
 
         private void MainForm_Load(object sender, EventArgs e)

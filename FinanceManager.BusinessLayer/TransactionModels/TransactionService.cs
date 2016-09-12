@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,6 +26,10 @@ namespace FinanceManager.BusinessLayer.TransactionModels
 
         List<TransactionItemModel> TransactionItems { get; set; }
 
+        //GetTransactions()
+        //GetTransactionItems()
+        //ForceGetTransactionItems()
+        #region Gets
         public List<TransactionModel> GetTransactions()
         {
             List<TransactionEntity> entities = Context.Transactions.ToList();
@@ -48,48 +51,38 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             return models;
         }
 
-        public List<TransactionModel> GetIncomes()
-        {
-            return GetTransactions().Where(e => e.Type == BaseModel.TypeEnum.Income).ToList();
-        }
-
-        public List<TransactionModel> GetExpenses()
-        {
-            return GetTransactions().Where(e => e.Type == BaseModel.TypeEnum.Expense).ToList();
-        }
-
         public List<TransactionItemModel> GetTransactionItems()
         {
             if (TransactionItems == null)
             {
-                TransactionItems = new List<TransactionItemModel>();
-                List<TransactionItemEntity> temp = Context.TransactionItems.ToList();
-                foreach (var e in temp)
-                {
-                    TransactionItems.Add(new TransactionItemModel
-                    {
-                        Id = e.Id,
-                        Name = e.Name,
-                        CategoryId = e.Category.Id,
-                        Category = _categoryService.GetCategory(e.Category.Name),
-                        LastValue = e.LastValue,
-                        Type = e.IsIncome ? BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
-                    });
-                }               
+                return ForceGetTransactionItems();
             }
             return TransactionItems;
         }
 
-        public List<TransactionItemModel> GetIncomeItems()
+        public List<TransactionItemModel> ForceGetTransactionItems()
         {
-            return GetTransactionItems().Where(e => e.Type == BaseModel.TypeEnum.Income).ToList();
+            var transactions = Context.TransactionItems.ToList();
+            TransactionItems = new List<TransactionItemModel>();
+            foreach (var e in transactions)
+            {
+                TransactionItems.Add(new TransactionItemModel
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    CategoryId = e.Category.Id,
+                    Category = _categoryService.GetCategory(e.Category.Name),
+                    LastValue = e.LastValue,
+                    Type = e.IsIncome ? BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
+                });
+            }
+            return TransactionItems;
         }
-
-        public List<TransactionItemModel> GetExpenseItems()
-        {
-            return GetTransactionItems().Where(e => e.Type == BaseModel.TypeEnum.Expense).ToList();
-        }
-
+        #endregion
+        
+        //SaveTransaction()
+        //SaveTransactionItem()
+        #region SaveToDB
         public TransactionEntity SaveTransaction(TransactionModel transactionModel)
         {
             transactionModel.Item.LastValue = transactionModel.Value;
@@ -121,7 +114,8 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                     entity.LastValue = transactionItemModel.LastValue;
                     Context.SaveChanges();
                 }
-                if (entity.Category.Name != transactionItemModel.CategoryName)
+                if (entity.Category.Name != transactionItemModel.CategoryName
+                 && !string.IsNullOrWhiteSpace(transactionItemModel.CategoryName))
                 {
                     entity.Category = _categoryService.SaveCategory(transactionItemModel.Category);
                     Context.SaveChanges();
@@ -139,6 +133,35 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             Context.TransactionItems.Add(entity);
             Context.SaveChanges();
             return entity;
+        }
+
+
+        #endregion
+
+        //SaveTransactionsAsync()
+        //SaveTransactionItemsAsync()
+        #region SaveToDBAsync
+        public async Task<bool> SaveTransactionsAsync(string filePath)
+        {
+            List<TransactionModel> transactions;
+            using (StreamReader reader = (new StreamReader(filePath, Encoding.GetEncoding("ISO-8859-2"))))
+            {
+                var csv = new CsvReader(reader);
+                csv.Configuration.Delimiter = ";";
+                csv.Configuration.HasHeaderRecord = true;
+                csv.Configuration.RegisterClassMap<TransactionClassMap>();
+                transactions = new List<TransactionModel>(csv.GetRecords<TransactionModel>().ToList());
+            }
+            foreach (var transaction in transactions)
+            {
+                var transactionTemp = transaction;
+                transactionTemp.User = _userService.LoggedInUser;
+                await Task.Run(() =>
+                {
+                    SaveTransaction(transactionTemp);
+                });
+            }
+            return true;
         }
 
         public async Task<bool> SaveTransactionItemsAsync(string filePath)
@@ -165,48 +188,21 @@ namespace FinanceManager.BusinessLayer.TransactionModels
             }
             return true;
         }
+        #endregion
 
-        public List<TransactionItemModel> ForceGetTransactionItems()
+        //SaveTransactionsToFile()
+        //SaveTransactionItemsToFile()
+        #region SaveToFile
+        public void SaveTransactionsToFile(string filePath)
         {
-            TransactionItems = new List<TransactionItemModel>();
-            foreach (var e in Context.TransactionItems)
+            using (StreamWriter sw = new StreamWriter(filePath, false, Encoding.UTF8))
             {
-                TransactionItems.Add(new TransactionItemModel
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    CategoryId = e.Category.Id,
-                    Category = _categoryService.GetCategory(e.Category.Name),
-                    LastValue = e.LastValue,
-                    Type = e.IsIncome ? BaseModel.TypeEnum.Income : BaseModel.TypeEnum.Expense
-                });
+                CsvWriter csv = new CsvWriter(sw);
+                csv.Configuration.RegisterClassMap<TransactionClassMap>();
+                csv.Configuration.Delimiter = ";";
+                csv.Configuration.QuoteAllFields = true;
+                csv.WriteRecords(GetTransactions());
             }
-            return TransactionItems;
-        }
-
-        public async Task<bool> SaveTransactionsAsync(string filePath)
-        {
-            List<TransactionModel> transactions = null;
-            
-                using (StreamReader reader = (new StreamReader(filePath, Encoding.GetEncoding("ISO-8859-2"))))
-                {
-                    var csv = new CsvReader(reader);
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HasHeaderRecord = true;
-                    csv.Configuration.RegisterClassMap<TransactionClassMap>();
-                    transactions = new List<TransactionModel>(csv.GetRecords<TransactionModel>().ToList());
-                }
-            ;
-            foreach (var transaction in transactions)
-            {
-                var transactionTemp = transaction;
-                transactionTemp.User = _userService.LoggedInUser;
-                await Task.Run(() =>
-                {
-                    SaveTransaction(transactionTemp);
-                });
-            }
-            return true;
         }
 
         public void SaveTransactionItemsToFile(string filePath)
@@ -220,17 +216,6 @@ namespace FinanceManager.BusinessLayer.TransactionModels
                 csv.WriteRecords(GetTransactionItems());
             }
         }
-
-        public void SaveTransactionsToFile(string filePath)
-        {
-            using (StreamWriter sw = new StreamWriter(filePath, false, Encoding.UTF8))
-            {
-                CsvWriter csv = new CsvWriter(sw);
-                csv.Configuration.RegisterClassMap<TransactionClassMap>();
-                csv.Configuration.Delimiter = ";";
-                csv.Configuration.QuoteAllFields = true;
-                csv.WriteRecords(GetTransactions());
-            }
-        }
-    }    
+        #endregion
+    }
 }
