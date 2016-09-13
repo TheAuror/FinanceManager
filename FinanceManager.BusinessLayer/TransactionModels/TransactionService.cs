@@ -86,6 +86,8 @@ namespace FinanceManager.BusinessLayer.TransactionModels
         #region SaveToDB
         public TransactionEntity SaveTransaction(TransactionModel transactionModel)
         {
+            if (string.IsNullOrWhiteSpace(transactionModel.Item.Name))
+                return null;
             transactionModel.Item.LastValue = transactionModel.Value;
             transactionModel.Item.Type = transactionModel.Type;
             TransactionEntity entity = new TransactionEntity

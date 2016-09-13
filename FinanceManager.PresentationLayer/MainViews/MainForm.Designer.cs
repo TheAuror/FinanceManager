@@ -37,7 +37,6 @@
             this.saveTransactionButton = new System.Windows.Forms.Button();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
-            this.regularCheckBox = new System.Windows.Forms.CheckBox();
             this.valueTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -100,7 +99,6 @@
             this.sidePanel.Controls.Add(this.saveTransactionButton);
             this.sidePanel.Controls.Add(this.dateTimePicker);
             this.sidePanel.Controls.Add(this.label5);
-            this.sidePanel.Controls.Add(this.regularCheckBox);
             this.sidePanel.Controls.Add(this.valueTextBox);
             this.sidePanel.Controls.Add(this.label3);
             this.sidePanel.Controls.Add(this.label2);
@@ -153,17 +151,6 @@
             this.label5.Size = new System.Drawing.Size(100, 13);
             this.label5.TabIndex = 9;
             this.label5.Text = "Keletkezés dátuma:";
-            // 
-            // regularCheckBox
-            // 
-            this.regularCheckBox.AutoSize = true;
-            this.regularCheckBox.Location = new System.Drawing.Point(6, 217);
-            this.regularCheckBox.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.regularCheckBox.Name = "regularCheckBox";
-            this.regularCheckBox.Size = new System.Drawing.Size(82, 17);
-            this.regularCheckBox.TabIndex = 3;
-            this.regularCheckBox.Text = "Rendszeres";
-            this.regularCheckBox.UseVisualStyleBackColor = true;
             // 
             // valueTextBox
             // 
@@ -256,7 +243,6 @@
         private JCS.ToggleSwitch toggleSwitch;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox regularCheckBox;
         private System.Windows.Forms.TextBox valueTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker dateTimePicker;

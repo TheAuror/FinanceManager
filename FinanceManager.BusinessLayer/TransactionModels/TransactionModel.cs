@@ -19,7 +19,7 @@ namespace FinanceManager.BusinessLayer.TransactionModels
 
         public virtual string ItemName
         {
-            get { return Item.Name; }
+            get { return Item.Name ?? ""; }
             set
             {
                 if (Item == null)

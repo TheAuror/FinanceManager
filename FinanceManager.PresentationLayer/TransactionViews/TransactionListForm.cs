@@ -31,6 +31,8 @@ namespace FinanceManager.PresentationLayer.TransactionViews
             _viewModel.LoadTransactions();
             dataGridView.DataSource = _viewModel.Transactions;
             dataGridView.Columns[3].DefaultCellStyle.Format = "C";
+            dateTimePicker.Format = DateTimePickerFormat.Custom;
+            dateTimePicker.CustomFormat = "yyyy. MMMM";
         }
 
         private async void beolvasásToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -43,10 +45,10 @@ namespace FinanceManager.PresentationLayer.TransactionViews
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     await _viewModel.SaveTransactionsAsync(openFileDialog.FileName);
-                }
-                currentFile = new FileInfo(openFileDialog.FileName);
-            }
-            _viewModel.LoadTransactions();
+                    currentFile = new FileInfo(openFileDialog.FileName);
+                    _viewModel.LoadTransactions();
+                }               
+            }            
         }
 
         private void mentésMáskéntToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -73,6 +75,13 @@ namespace FinanceManager.PresentationLayer.TransactionViews
                 return;
             }
             _viewModel.SaveDataToFile(currentFile.FullName);
+        }
+
+        private void dateTimePicker_ValueChanged(object sender, System.EventArgs e)
+        {
+            _viewModel.Year = dateTimePicker.Value.ToString("yyyy");
+            _viewModel.Month = dateTimePicker.Value.ToString("MMMM");
+            _viewModel.LoadTransactions();
         }
     }
 }

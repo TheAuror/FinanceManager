@@ -99,11 +99,11 @@ namespace FinanceManager.PresentationLayer.TransactionItemViews
                 openFileDialog.Filter = "Csv fájlok (.csv)|*.csv|Minden fájl|*.*";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    await _itemListViewModel.SaveTransactionItemsAsync(openFileDialog.FileName);                       
-                }
-                currentFile = new FileInfo(openFileDialog.FileName);
-            }
-            _itemListViewModel.LoadTransactionItems();
+                    await _itemListViewModel.SaveTransactionItemsAsync(openFileDialog.FileName);
+                    currentFile = new FileInfo(openFileDialog.FileName);
+                    _itemListViewModel.LoadTransactionItems();
+                }                
+            }            
         }
 
         private void mentésMáskéntToolStripMenuItem_Click(object sender, EventArgs e)

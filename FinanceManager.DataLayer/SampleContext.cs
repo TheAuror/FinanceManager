@@ -5,7 +5,7 @@ namespace FinanceManager.DataLayer
 {
     public class SampleContext : DbContext, ISampleContext
     {
-        public SampleContext():this("FinanceManager")
+        public SampleContext():this("CzinegeZeno")
         {
                 
         }

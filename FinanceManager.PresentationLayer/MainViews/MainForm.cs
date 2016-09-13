@@ -50,7 +50,6 @@ namespace FinanceManager.PresentationLayer.MainViews
             _mainViewModel.SaveTransaction();
             itemNameTextBox.Text = "";
             valueTextBox.Text = "0";
-            regularCheckBox.Checked = false;
             itemNameTextBox.Focus();
             _mainViewModel.LoadTransactionItems();
             itemNameTextBox.AutoCompleteCustomSource = _mainViewModel.ItemNames;

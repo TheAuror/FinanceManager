@@ -35,6 +35,9 @@
             this.mentésToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mentésMáskéntToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.incomeCheckBox = new System.Windows.Forms.CheckBox();
+            this.expenseCheckBox = new System.Windows.Forms.CheckBox();
+            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.itemDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,8 +45,6 @@
             this.createdTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.incomeCheckBox = new System.Windows.Forms.CheckBox();
-            this.expenseCheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBindingSource)).BeginInit();
@@ -115,6 +116,43 @@
             this.dataGridView.TabIndex = 1;
             this.dataGridView.TabStop = false;
             // 
+            // incomeCheckBox
+            // 
+            this.incomeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.incomeCheckBox.AutoSize = true;
+            this.incomeCheckBox.Checked = true;
+            this.incomeCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.incomeCheckBox.Location = new System.Drawing.Point(592, 4);
+            this.incomeCheckBox.Name = "incomeCheckBox";
+            this.incomeCheckBox.Size = new System.Drawing.Size(74, 17);
+            this.incomeCheckBox.TabIndex = 2;
+            this.incomeCheckBox.Text = "Bevételek";
+            this.incomeCheckBox.UseVisualStyleBackColor = true;
+            this.incomeCheckBox.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
+            // 
+            // expenseCheckBox
+            // 
+            this.expenseCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.expenseCheckBox.AutoSize = true;
+            this.expenseCheckBox.Checked = true;
+            this.expenseCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.expenseCheckBox.Location = new System.Drawing.Point(672, 4);
+            this.expenseCheckBox.Name = "expenseCheckBox";
+            this.expenseCheckBox.Size = new System.Drawing.Size(70, 17);
+            this.expenseCheckBox.TabIndex = 3;
+            this.expenseCheckBox.Text = "Kiadások";
+            this.expenseCheckBox.UseVisualStyleBackColor = true;
+            this.expenseCheckBox.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
+            // 
+            // dateTimePicker
+            // 
+            this.dateTimePicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dateTimePicker.Location = new System.Drawing.Point(452, 1);
+            this.dateTimePicker.Name = "dateTimePicker";
+            this.dateTimePicker.Size = new System.Drawing.Size(125, 20);
+            this.dateTimePicker.TabIndex = 4;
+            this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
+            // 
             // idDataGridViewTextBoxColumn
             // 
             this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
@@ -162,39 +200,12 @@
             this.dataGridViewBindingSource.DataMember = "Transactions";
             this.dataGridViewBindingSource.DataSource = typeof(FinanceManager.PresentationLayer.TransactionViews.TransactionListViewModel);
             // 
-            // incomeCheckBox
-            // 
-            this.incomeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.incomeCheckBox.AutoSize = true;
-            this.incomeCheckBox.Checked = true;
-            this.incomeCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.incomeCheckBox.Location = new System.Drawing.Point(592, 4);
-            this.incomeCheckBox.Name = "incomeCheckBox";
-            this.incomeCheckBox.Size = new System.Drawing.Size(74, 17);
-            this.incomeCheckBox.TabIndex = 2;
-            this.incomeCheckBox.Text = "Bevételek";
-            this.incomeCheckBox.UseVisualStyleBackColor = true;
-            this.incomeCheckBox.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
-            // 
-            // expenseCheckBox
-            // 
-            this.expenseCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.expenseCheckBox.AutoSize = true;
-            this.expenseCheckBox.Checked = true;
-            this.expenseCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.expenseCheckBox.Location = new System.Drawing.Point(672, 4);
-            this.expenseCheckBox.Name = "expenseCheckBox";
-            this.expenseCheckBox.Size = new System.Drawing.Size(70, 17);
-            this.expenseCheckBox.TabIndex = 3;
-            this.expenseCheckBox.Text = "Kiadások";
-            this.expenseCheckBox.UseVisualStyleBackColor = true;
-            this.expenseCheckBox.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
-            // 
             // TransactionListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(764, 565);
+            this.Controls.Add(this.dateTimePicker);
             this.Controls.Add(this.expenseCheckBox);
             this.Controls.Add(this.incomeCheckBox);
             this.Controls.Add(this.dataGridView);
@@ -230,5 +241,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn createdTimeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DateTimePicker dateTimePicker;
     }
 }
